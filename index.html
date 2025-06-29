@@ -3,266 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flo</title>
+    <title>Galerie Parallaxe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 1. GENERAL SETUP & RESETS */
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #000000;
-            color: #E5E7EB; /* Equivalent to text-gray-200 */
+            scroll-behavior: smooth; /* Adds smooth scrolling for a better user experience */
+        }
+        
+        /* * Note: background-attachment: fixed; can have performance implications
+         * and is often disabled on mobile browsers, where it will behave like `scroll`.
+         * The parallax effect may not work on all mobile devices.
+        */
+        .parallax-section {
+            height: 75vh; 
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover; 
         }
 
-        /* Responsive base for images and videos */
-        img, video {
-            max-width: 100%;
-            height: auto;
-            display: block;
+        .fullscreen-section {
+            height: 100vh; 
         }
-
-        /* 2. ANIMATIONS */
+        
         .fade-in {
             animation: fadeIn 1.2s ease-in-out;
         }
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 3. SECTION STYLES */
-
-        /* Base styles for all section types */
-        .section {
-            width: 100%;
-            /* overflow hidden can be useful but let's manage it per-section */
-        }
-
-        /* --- Section: Fullscreen Media (For Images and Videos) --- */
-        .section-full-media {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh; /* Full viewport height */
-            overflow: hidden;
-            /* Padding removed to allow for true edge-to-edge media */
-        }
-
-        .section-full-media__image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* CHANGED: Makes the image fill the container, cropping if necessary */
-            border-radius: 0; /* Optional: remove radius for a full bleed look */
-            /* Box-shadow is less effective on a full-bleed image against a black BG */
-        }
-
-        .section-full-media__video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Covers the entire section for an immersive feel */
-        }
-
-        /* --- Section: Parallax --- */
-        .section-parallax {
-            height: 75vh;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            /* The parallax effect for desktops */
-            background-attachment: fixed;
-        }
-
-        /* --- Section: Text --- */
-        .section-text {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh; /* Use min-height to prevent content overflow on small screens */
-            padding: 2rem;
-        }
-
-        .section-text__container {
-            max-width: 800px;
-            text-align: center;
-        }
-
-        .section-text__title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-text__content {
-            font-size: 1.125rem; /* 18px */
-            line-height: 1.6;
-        }
-        .section-text__content a {
-            text-decoration: underline;
-            color: inherit; /* Inherits color from parent */
-            opacity: 0.8;
-            transition: opacity 0.2s ease;
-        }
-        .section-text__content a:hover {
-            opacity: 1;
-        }
-
-        /* 4. RESPONSIVE & MOBILE FIXES */
-
-        /*
-          Parallax Mobile Fix:
-          `background-attachment: fixed` is poorly supported on mobile and causes performance/zoom issues.
-          This modern media query reliably detects most touch devices (not just by screen width).
-          It disables the effect, switching to a standard scrolling background that works perfectly.
-        */
-        @media (hover: none) and (pointer: coarse) {
-            .section-parallax {
-                background-attachment: scroll; /* DISABLING PARALLAX ON MOBILE */
-                height: 50vh; /* Make parallax sections shorter on mobile */
-            }
-        }
-
-        /* General tweaks for smaller screens */
+        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .section-text {
-                padding: 1.5rem;
-                min-height: 80vh;
-            }
-            .section-text__title {
-                font-size: 2rem;
-            }
-            .section-text__content {
-                font-size: 1rem; /* 16px */
-            }
-            
-            /*
-             * FIX: Prevent cropping of full-screen images on mobile.
-             * On portrait screens, 'cover' can aggressively crop the sides of landscape images.
-             * 'contain' ensures the entire image is visible. The section's black background
-             * will create a natural letterbox effect if aspect ratios don't match.
-            */
-            .section-full-media__image {
-                object-fit: contain;
+            .parallax-section {
+                height: 50vh; /* Reduce height on smaller screens */
             }
         }
     </style>
 </head>
-<body>
+<body class="bg-black text-gray-200">
 
-    <main id="gallery-container">
-        </main>
+    <div class="w-full">
+        <main id="gallery-container" class="w-full">
+            </main>
+    </div>
 
     <script>
         const galleryItems = [
-            // This image will now fill the screen ('cover' is the new default)
             { file: "flohaxovl.png", type: 'full' },
             { file: "floinnvd.png", type: 'parallax' },
-            // This image is a good candidate for 'contain' if you don't want the edges cropped
             { file: "flocloudwaveii.png", type: 'full' },
             { file: "floinnvl.png", type: 'parallax' },
-             // Let's make this one 'contain' to show the flexible override
-            { file: "flowatvpfe.png", type: 'full', fit: 'contain' },
-            { type: 'text', content: 'text text text.text text text.text text text.text text text.text text text.text text text.text text text.text text text.text text text.text text text.text text text.', bgColor: '#D1D5DB', textColor: '#111827' },
+            { file: "flowatvpfe.png", type: 'full' },
+            { type: 'text', content: 'Ceci est un exemple de bloc de texte. Il occupe toute la hauteur de la vue et peut être utilisé pour présenter des informations, des citations ou des histoires entre les éléments visuels de la galerie.', bgColor: '#D1D5DB', textColor: '#111827' },
+            // { type: 'text', title: 'Titre d\'Exemple', content: 'Ce bloc de texte inclut un titre et un paragraphe. Les couleurs de fond et de texte sont entièrement personnalisables.', bgColor: '#111827', textColor: '#FFFFFF' },
             { file: "floinnvd.png", type: 'parallax' },
             { file: "flolosangeb.png", type: 'full' },
             { file: "floinnvl.png", type: 'parallax' },
-            { type: 'text', content: 'text text text.text text text.text text text.text text text.', bgColor: '#000000', textColor: '#D1D5DB' },
+            { type: 'text', content: 'Les possibilités sont variées, permettant une narration visuelle et textuelle fluide. Chaque section apparaît avec une animation de fondu pour une transition en douceur.', bgColor: '#000000', textColor: '#D1D5DB' },
             { file: "flofriiibi.png", type: 'full' },
             { file: "floinnvd.png", type: 'parallax' },
-            { file: "flo x color cool.mp4", type: 'video' },
+            { file: "flo x color cool.m4v", type: 'video' },
             { file: "floinnvd.png", type: 'parallax' },
-            { type: 'text', content: 'text text text.text text text.text text text. touch. <br><br> <a href="mailto:florent.campana@gmail.com">contact</a>', bgColor: '#000000', textColor: '#D1D5DB' },
+            { type: 'text', content: 'Pour toute question ou collaboration, n\'hésitez pas à me contacter. <a href="mailto:florent.campana@gmail.com" class="font-medium text-gray-200 hover:underline">contact</a>', bgColor: '#000000', textColor: '#D1D5DB' },
         ];
-
+        
         const mediaPath = "images/";
+        
         const galleryContainer = document.getElementById('gallery-container');
 
-        if (galleryItems.length > 0) {
+        if (!galleryContainer) {
+            console.error("Error: Gallery container not found.");
+        } else if (galleryItems.length === 0) {
+            galleryContainer.innerHTML = `
+                <section class="fullscreen-section flex items-center justify-center">
+                    <p class="text-xl text-gray-400">La galerie est vide.</p>
+                </section>
+            `;
+        } else {
             galleryItems.forEach(item => {
-                let section; // Define section container outside the switch
+                if (item.type === 'full') {
+                    const imageSection = document.createElement('section');
+                    imageSection.className = "fullscreen-section w-screen flex items-center justify-center p-4 md:p-8 fade-in";
+                    
+                    const img = document.createElement('img');
+                    img.src = `${mediaPath}${item.file}`;
+                    img.alt = item.file;
+                    img.className = "max-w-full max-h-full object-contain rounded-lg shadow-2xl shadow-black/50";
+                    
+                    img.onerror = function() {
+                        this.onerror = null; // Prevent infinite loop if fallback also fails
+                        this.parentElement.innerHTML = `<div class="text-red-400">Erreur de chargement: ${this.alt}</div>`;
+                    };
 
-                switch (item.type) {
-                    case 'full':
-                        section = document.createElement('section');
-                        section.className = "section section-full-media fade-in";
+                    imageSection.appendChild(img);
+                    galleryContainer.appendChild(imageSection);
 
-                        const img = document.createElement('img');
-                        img.src = `${mediaPath}${item.file}`;
-                        img.alt = `Image: ${item.file}`;
-                        img.className = "section-full-media__image";
-                        
-                        // NEW: Allow overriding the object-fit property per image
-                        if (item.fit === 'contain') {
-                            img.style.objectFit = 'contain';
-                            // If containing, you might want padding back. A class would be better.
-                            // For now, this just contains it within the 100vh frame.
-                            // You could add a border/shadow back here too if desired.
-                            img.style.borderRadius = '0.5rem'; 
-                        }
+                } else if (item.type === 'parallax') {
+                    const parallaxSection = document.createElement('section');
+                    parallaxSection.className = "parallax-section fade-in";
+                    parallaxSection.style.backgroundImage = `url('${mediaPath}${item.file}')`;
+                    galleryContainer.appendChild(parallaxSection);
 
-                        img.onerror = function() { console.error(`Failed to load image: ${this.src}`); };
-                        
-                        section.appendChild(img);
-                        galleryContainer.appendChild(section);
-                        break;
+                } else if (item.type === 'video') {
+                    const videoSection = document.createElement('section');
+                    videoSection.className = "fullscreen-section w-screen flex items-center justify-center overflow-hidden fade-in";
+                    
+                    const video = document.createElement('video');
+                    video.src = `${mediaPath}${item.file}`;
+                    video.autoplay = true;
+                    video.loop = true;
+                    video.muted = true;
+                    video.playsInline = true; // Essential for autoplay on iOS
+                    video.className = "w-full h-full object-cover";
 
-                    case 'parallax':
-                        section = document.createElement('section');
-                        section.className = "section section-parallax fade-in";
-                        section.style.backgroundImage = `url('${mediaPath}${item.file}')`;
-                        galleryContainer.appendChild(section);
-                        break;
+                    videoSection.appendChild(video);
+                    galleryContainer.appendChild(videoSection);
 
-                    case 'video':
-                        section = document.createElement('section');
-                        section.className = "section section-full-media fade-in";
+                } else if (item.type === 'text') {
+                    const textSection = document.createElement('section');
+                    // Use responsive padding: smaller on mobile, larger on desktop
+                    textSection.className = "fullscreen-section w-screen flex items-center justify-center p-6 md:p-8 fade-in";
+                    textSection.style.backgroundColor = item.bgColor || '#000000';
 
-                        const video = document.createElement('video');
-                        video.src = `${mediaPath}${item.file}`;
-                        video.autoplay = true;
-                        video.loop = true;
-                        video.muted = true;
-                        video.playsInline = true; // Essential for autoplay on iOS
-                        video.className = "section-full-media__video";
-                        video.onerror = function() { console.error(`Failed to load video: ${this.src}`); };
+                    const textContainer = document.createElement('div');
+                    textContainer.className = "text-center max-w-3xl";
+                    
+                    if (item.title) {
+                        const title = document.createElement('h2');
+                        title.textContent = item.title;
+                        // Responsive font size: text-3xl on mobile -> text-4xl on medium screens -> text-5xl on large screens
+                        title.className = "text-3xl md:text-4xl lg:text-5xl font-bold mb-6";
+                        title.style.color = item.textColor || '#FFFFFF';
+                        textContainer.appendChild(title);
+                    }
+                    
+                    if (item.content) {
+                        const content = document.createElement('p');
+                        content.innerHTML = item.content; 
+                        // Responsive font size: text-lg on mobile -> text-xl on medium screens
+                        content.className = "text-lg md:text-xl leading-relaxed";
+                        content.style.color = item.textColor || '#D1D5DB';
+                        textContainer.appendChild(content);
+                    }
 
-                        section.appendChild(video);
-                        galleryContainer.appendChild(section);
-                        break;
-
-                    case 'text':
-                        section = document.createElement('section');
-                        section.className = "section section-text fade-in";
-                        section.style.backgroundColor = item.bgColor || '#000000';
-
-                        const textContainer = document.createElement('div');
-                        textContainer.className = "section-text__container";
-
-                        if (item.title) {
-                            const title = document.createElement('h2');
-                            title.textContent = item.title;
-                            title.className = "section-text__title";
-                            title.style.color = item.textColor || 'inherit';
-                            textContainer.appendChild(title);
-                        }
-
-                        if (item.content) {
-                            const content = document.createElement('p');
-                            content.innerHTML = item.content; // Use innerHTML to render the <a> tag
-                            content.className = "section-text__content";
-                            content.style.color = item.textColor || 'inherit';
-                            textContainer.appendChild(content);
-                        }
-
-                        section.appendChild(textContainer);
-                        galleryContainer.appendChild(section);
-                        break;
+                    textSection.appendChild(textContainer);
+                    galleryContainer.appendChild(textSection);
                 }
             });
         }
