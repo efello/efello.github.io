@@ -3,61 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Visual Art Portfolio</title> <script src="https://cdn.tailwindcss.com"></script>
+    <title>Flo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Universal Box Sizing for consistent element sizing */
+        /* 1. GENERAL SETUP & RESETS */
         *, *::before, *::after {
             box-sizing: border-box;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            margin: 0; /* Ensure no default body margin pushes content */
-            padding: 0; /* Ensure no default body padding */
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            color: #E5E7EB; /* Equivalent to text-gray-200 */
         }
 
-        /* Essential for responsive images and videos */
+        /* Responsive base for images and videos */
         img, video {
-            max-width: 100%; /* Ensures media never overflows its container */
-            height: auto;    /* Maintains aspect ratio */
-            display: block;  /* Removes extra space below inline elements */
-            object-fit: contain; /* Default object-fit for img; adjust as needed per case */
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
-        /* Parallax section styling */
-        .parallax-section {
-            height: 75vh;
-            background-attachment: fixed; /* Desktop default for parallax */
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover; /* Background images cover the area */
-        }
-
-        /* Media query for smaller screens (e.g., typical mobile/tablet) */
-        @media (max-width: 768px) {
-            .parallax-section {
-                background-attachment: scroll; /* Disable fixed parallax on mobile for better performance/compatibility */
-                height: 50vh; /* Make parallax sections shorter on mobile if desired */
-            }
-        }
-
-        /* Fullscreen sections (images, videos, text) */
-        .fullscreen-section {
-            height: 100vh;
-            /* Ensure content inside doesn't overflow the viewport height */
-            overflow: hidden; 
-        }
-
-        /* Fade-in animation */
+        /* 2. ANIMATIONS */
         .fade-in {
             animation: fadeIn 1.2s ease-in-out;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+
+        /* 3. SECTION STYLES */
+
+        /* Base styles for all section types */
+        .section {
+            width: 100%;
+            /* overflow hidden can be useful but let's manage it per-section */
+        }
+
+        /* --- Section: Fullscreen Media (For Images and Videos) --- */
+        .section-full-media {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+            padding: 1.5rem; /* Padding on the container, not the image */
+            overflow: hidden;
+        }
+
+        .section-full-media__image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* Ensures entire image is visible */
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+        }
+
+        .section-full-media__video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Covers the entire section for an immersive feel */
+        }
+
+        /* --- Section: Parallax --- */
+        .section-parallax {
+            height: 75vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            /* The parallax effect for desktops */
+            background-attachment: fixed;
+        }
+
+        /* --- Section: Text --- */
+        .section-text {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 2rem;
+        }
+
+        .section-text__container {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .section-text__title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-text__content {
+            font-size: 1.125rem; /* 18px */
+            line-height: 1.6;
+        }
+        .section-text__content a {
+            text-decoration: underline;
+            color: inherit; /* Inherits color from parent */
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+        .section-text__content a:hover {
+            opacity: 1;
+        }
+
+        /* 4. RESPONSIVE & MOBILE FIXES */
+
+        /*
+          Parallax Mobile Fix:
+          `background-attachment: fixed` is poorly supported on mobile and causes performance/zoom issues.
+          This modern media query reliably detects most touch devices (not just by screen width).
+          It disables the effect, switching to a standard scrolling background that works perfectly.
+        */
+        @media (hover: none) and (pointer: coarse) {
+            .section-parallax {
+                background-attachment: scroll; /* DISABLING PARALLAX ON MOBILE */
+                height: 50vh; /* Make parallax sections shorter on mobile */
+            }
+        }
+
+        /* General tweaks for smaller screens */
+        @media (max-width: 768px) {
+            .section-full-media {
+                padding: 1rem; /* Less padding on small viewports */
+            }
+            .section-text {
+                padding: 1rem;
+            }
+            .section-text__title {
+                font-size: 2rem;
+            }
+            .section-text__content {
+                font-size: 1rem; /* 16px */
+            }
         }
     </style>
 </head>
@@ -84,80 +168,70 @@
             { file: "floinnvd.png", type: 'parallax' },
             { file: "flo x color cool.mp4", type: 'video' },
             { file: "floinnvd.png", type: 'parallax' },
-            { type: 'text', content: 'texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. <a href="mailto:florent.campana@gmail.com" class="text-black-200 hover:underline">contact</a>', bgColor: '#000000', textColor: '#D1D5DB' },
+            { type: 'text', content: 'texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. <a href="mailto:florent.campana@gmail.com">contact</a>', bgColor: '#000000', textColor: '#D1D5DB' },
         ];
 
         const mediaPath = "images/";
         const galleryContainer = document.getElementById('gallery-container');
 
-        if (galleryItems.length === 0) {
-            // Handle empty gallery case if needed
-        } else {
+        if (galleryItems.length > 0) {
             galleryItems.forEach(item => {
                 if (item.type === 'full') {
                     const imageSection = document.createElement('section');
-                    // CORRECTED: Moved padding classes from the image to the container section.
-                    imageSection.className = "fullscreen-section flex items-center justify-center p-4 sm:p-8 md:p-12 fade-in";
+                    imageSection.className = "section section-full-media fade-in";
 
                     const img = document.createElement('img');
                     img.src = `${mediaPath}${item.file}`;
                     img.alt = `Image: ${item.file}`;
-                    // CORRECTED: Removed padding from the image itself.
-                    img.className = "max-w-full max-h-full object-contain rounded-lg shadow-2xl shadow-black/50"; 
-
-                    img.onerror = function() { console.error(`Failed to load image: ${item.file}`); };
+                    img.className = "section-full-media__image";
+                    img.onerror = function() { console.error(`Failed to load image: ${this.src}`); };
 
                     imageSection.appendChild(img);
                     galleryContainer.appendChild(imageSection);
 
                 } else if (item.type === 'parallax') {
                     const parallaxSection = document.createElement('section');
-                    parallaxSection.className = "parallax-section fade-in";
+                    parallaxSection.className = "section section-parallax fade-in";
                     parallaxSection.style.backgroundImage = `url('${mediaPath}${item.file}')`;
                     galleryContainer.appendChild(parallaxSection);
 
                 } else if (item.type === 'video') {
                     const videoSection = document.createElement('section');
-                    // Removed w-screen from here, rely on fullscreen-section
-                    videoSection.className = "fullscreen-section flex items-center justify-center overflow-hidden fade-in";
+                    videoSection.className = "section section-full-media fade-in";
 
                     const video = document.createElement('video');
                     video.src = `${mediaPath}${item.file}`;
                     video.autoplay = true;
                     video.loop = true;
                     video.muted = true;
-                    video.playsInline = true;
-                    // Adjusted video classes slightly
-                    video.className = "w-full h-full object-cover max-w-full max-h-full";
+                    video.playsInline = true; // Essential for autoplay on iOS
+                    video.className = "section-full-media__video";
+                    video.onerror = function() { console.error(`Failed to load video: ${this.src}`); };
 
                     videoSection.appendChild(video);
                     galleryContainer.appendChild(videoSection);
 
                 } else if (item.type === 'text') {
                     const textSection = document.createElement('section');
-                    // w-screen is fine here, combined with flex and justify/items-center
-                    textSection.className = "fullscreen-section w-screen flex items-center justify-center p-8 fade-in";
+                    textSection.className = "section section-text fade-in";
                     textSection.style.backgroundColor = item.bgColor || '#000000';
 
                     const textContainer = document.createElement('div');
-                    // Tailwind's max-w-* classes handle responsiveness for width, p-4 ensures mobile padding
-                    textContainer.className = "text-center max-w-3xl p-4"; // Added padding for text container on small screens
+                    textContainer.className = "section-text__container";
 
                     if (item.title) {
                         const title = document.createElement('h2');
                         title.textContent = item.title;
-                        // Tailwind's responsive text sizes already handle this (md:text-5xl)
-                        title.className = "text-4xl md:text-5xl font-bold mb-6";
-                        title.style.color = item.textColor || '#FFFFFF';
+                        title.className = "section-text__title";
+                        title.style.color = item.textColor || 'inherit';
                         textContainer.appendChild(title);
                     }
 
                     if (item.content) {
                         const content = document.createElement('p');
                         content.innerHTML = item.content;
-                        // Tailwind's responsive text sizes already handle this (md:text-xl)
-                        content.className = "text-lg md:text-xl leading-relaxed";
-                        content.style.color = item.textColor || '#D1D5DB';
+                        content.className = "section-text__content";
+                        content.style.color = item.textColor || 'inherit';
                         textContainer.appendChild(content);
                     }
 
