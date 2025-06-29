@@ -140,6 +140,16 @@
             .section-text__content {
                 font-size: 1rem; /* 16px */
             }
+            
+            /*
+             * FIX: Prevent cropping of full-screen images on mobile.
+             * On portrait screens, 'cover' can aggressively crop the sides of landscape images.
+             * 'contain' ensures the entire image is visible. The section's black background
+             * will create a natural letterbox effect if aspect ratios don't match.
+            */
+            .section-full-media__image {
+                object-fit: contain;
+            }
         }
     </style>
 </head>
@@ -158,16 +168,16 @@
             { file: "floinnvl.png", type: 'parallax' },
              // Let's make this one 'contain' to show the flexible override
             { file: "flowatvpfe.png", type: 'full', fit: 'contain' },
-            { type: 'text', content: 'This is sample text. You can add long-form content, descriptions, or any other textual information here to break up the visual flow. This section has a light background.', bgColor: '#D1D5DB', textColor: '#111827' },
+            { type: 'text', content: 'text text text.text text text.text text text.text text text.text text text.text text text.text text text.text text text.text text text.text text text.text text text.', bgColor: '#D1D5DB', textColor: '#111827' },
             { file: "floinnvd.png", type: 'parallax' },
             { file: "flolosangeb.png", type: 'full' },
             { file: "floinnvl.png", type: 'parallax' },
-            { type: 'text', title: 'About This Project', content: 'Here, we can have a title and a paragraph. This approach allows for structured textual content with distinct visual styling, maintaining the narrative of the portfolio. The background is dark, matching the body.', bgColor: '#000000', textColor: '#D1D5DB' },
+            { type: 'text', content: 'text text text.text text text.text text text.text text text.', bgColor: '#000000', textColor: '#D1D5DB' },
             { file: "flofriiibi.png", type: 'full' },
             { file: "floinnvd.png", type: 'parallax' },
             { file: "flo x color cool.mp4", type: 'video' },
             { file: "floinnvd.png", type: 'parallax' },
-            { type: 'text', content: 'For inquiries or collaborations, please feel free to get in touch. <br><br> <a href="mailto:florent.campana@gmail.com">contact</a>', bgColor: '#000000', textColor: '#D1D5DB' },
+            { type: 'text', content: 'text text text.text text text.text text text. touch. <br><br> <a href="mailto:florent.campana@gmail.com">contact</a>', bgColor: '#000000', textColor: '#D1D5DB' },
         ];
 
         const mediaPath = "images/";
