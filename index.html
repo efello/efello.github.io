@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Visual Art Portfolio</title> <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Universal Box Sizing for consistent element sizing */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0; /* Ensure no default body margin pushes content */
+            padding: 0; /* Ensure no default body padding */
+        }
+
+        /* Essential for responsive images and videos */
+        img, video {
+            max-width: 100%; /* Ensures media never overflows its container */
+            height: auto;    /* Maintains aspect ratio */
+            display: block;  /* Removes extra space below inline elements */
+            object-fit: contain; /* Default object-fit for img; adjust as needed per case */
+        }
+
+        /* Parallax section styling */
+        .parallax-section {
+            height: 75vh;
+            background-attachment: fixed; /* Desktop default for parallax */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover; /* Background images cover the area */
+        }
+
+        /* Media query for smaller screens (e.g., typical mobile/tablet) */
+        @media (max-width: 768px) {
+            .parallax-section {
+                background-attachment: scroll; /* Disable fixed parallax on mobile for better performance/compatibility */
+                height: 50vh; /* Make parallax sections shorter on mobile if desired */
+            }
+        }
+
+        /* Fullscreen sections (images, videos, text) */
+        .fullscreen-section {
+            height: 100vh;
+            /* Ensure content inside doesn't overflow the viewport height */
+            overflow: hidden; 
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            animation: fadeIn 1.2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-black text-gray-200">
+
+    <div class="w-full">
+        <main id="gallery-container" class="w-full">
+            </main>
+    </div>
+
+    <script>
+        const galleryItems = [
+            { file: "flohaxovl.png", type: 'full' },
+            { file: "floinnvd.png", type: 'parallax' },
+            { file: "flocloudwaveii.png", type: 'full' },
+            { file: "floinnvl.png", type: 'parallax' },
+            { file: "flowatvpfe.png", type: 'full' },
+            { type: 'text', content: 'texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. ', bgColor: '#D1D5DB', textColor: '#111827' },
+            { file: "floinnvd.png", type: 'parallax' },
+            { file: "flolosangeb.png", type: 'full' },
+            { file: "floinnvl.png", type: 'parallax' },
+            { type: 'text', content: 'texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. ', bgColor: '#000000', textColor: '#D1D5DB' },
+            { file: "flofriiibi.png", type: 'full' },
+            { file: "floinnvd.png", type: 'parallax' },
+            { file: "flo x color cool.mp4", type: 'video' },
+            { file: "floinnvd.png", type: 'parallax' },
+            { type: 'text', content: 'texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. <a href="mailto:florent.campana@gmail.com" class="text-black-200 hover:underline">contact</a>', bgColor: '#000000', textColor: '#D1D5DB' },
+        ];
+
+        const mediaPath = "images/";
+        const galleryContainer = document.getElementById('gallery-container');
+
+        if (galleryItems.length === 0) {
+            // Handle empty gallery case if needed
+        } else {
+            galleryItems.forEach(item => {
+                if (item.type === 'full') {
+                    const imageSection = document.createElement('section');
+                    // Removed w-screen here, as fullscreen-section already covers it visually with height: 100vh
+                    // Also removed p-4 from here, moved to the content inside if applicable, or rely on flex/justify centering
+                    imageSection.className = "fullscreen-section flex items-center justify-center fade-in";
+
+                    const img = document.createElement('img');
+                    img.src = `${mediaPath}${item.file}`;
+                    img.alt = `Image: ${item.file}`;
+                    // Tailwind classes for image inside full-screen container
+                    img.className = "max-w-full max-h-full object-contain rounded-lg shadow-2xl shadow-black/50 p-4 sm:p-8 md:p-12";
+                    // Added responsive padding to the image itself to ensure spacing on all screen sizes
+
+                    img.onerror = function() { console.error(`Failed to load image: ${item.file}`); };
+
+                    imageSection.appendChild(img);
+                    galleryContainer.appendChild(imageSection);
+
+                } else if (item.type === 'parallax') {
+                    const parallaxSection = document.createElement('section');
+                    parallaxSection.className = "parallax-section fade-in";
+                    parallaxSection.style.backgroundImage = `url('${mediaPath}${item.file}')`;
+                    galleryContainer.appendChild(parallaxSection);
+
+                } else if (item.type === 'video') {
+                    const videoSection = document.createElement('section');
+                    // Removed w-screen from here, rely on fullscreen-section
+                    videoSection.className = "fullscreen-section flex items-center justify-center overflow-hidden fade-in";
+
+                    const video = document.createElement('video');
+                    video.src = `${mediaPath}${item.file}`;
+                    video.autoplay = true;
+                    video.loop = true;
+                    video.muted = true;
+                    video.playsInline = true;
+                    // Adjusted video classes slightly
+                    video.className = "w-full h-full object-cover max-w-full max-h-full";
+
+                    videoSection.appendChild(video);
+                    galleryContainer.appendChild(videoSection);
+
+                } else if (item.type === 'text') {
+                    const textSection = document.createElement('section');
+                    // w-screen is fine here, combined with flex and justify/items-center
+                    textSection.className = "fullscreen-section w-screen flex items-center justify-center p-8 fade-in";
+                    textSection.style.backgroundColor = item.bgColor || '#000000';
+
+                    const textContainer = document.createElement('div');
+                    // Tailwind's max-w-* classes handle responsiveness for width, p-4 ensures mobile padding
+                    textContainer.className = "text-center max-w-3xl p-4"; // Added padding for text container on small screens
+
+                    if (item.title) {
+                        const title = document.createElement('h2');
+                        title.textContent = item.title;
+                        // Tailwind's responsive text sizes already handle this (md:text-5xl)
+                        title.className = "text-4xl md:text-5xl font-bold mb-6";
+                        title.style.color = item.textColor || '#FFFFFF';
+                        textContainer.appendChild(title);
+                    }
+
+                    if (item.content) {
+                        const content = document.createElement('p');
+                        content.innerHTML = item.content;
+                        // Tailwind's responsive text sizes already handle this (md:text-xl)
+                        content.className = "text-lg md:text-xl leading-relaxed";
+                        content.style.color = item.textColor || '#D1D5DB';
+                        textContainer.appendChild(content);
+                    }
+
+                    textSection.appendChild(textContainer);
+                    galleryContainer.appendChild(textSection);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
