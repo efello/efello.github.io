@@ -40,20 +40,7 @@ body {
     line-height: 1.6;
 }
 
-h1, h2, h3 {
-    line-height: 1.2;
-    margin-bottom: 0.5em; /* Spacing below headings */
-}
-
-p {
-    margin-bottom: 1em; /* Spacing between paragraphs */
-}
-
-p:last-of-type {
-    margin-bottom: 0;
-}
-
-img, video { /* Added video to this rule */
+img, video {
     display: block;
     width: 100%;
     height: auto;
@@ -78,6 +65,11 @@ section {
     padding-right: 16px;
     padding-top: var(--section-padding-block);
     padding-bottom: var(--section-padding-block);
+}
+
+/* NEW RULE: Removes the top padding from the very first section */
+main > section:first-of-type {
+    padding-top: 0;
 }
 
 .container {
@@ -124,9 +116,14 @@ section {
    SECTION SPECIFIC STYLES
 ================================================================= */
 
-/* Empty sections will just take up padding space */
+/* Empty sections now have no top padding if they are first */
 #hero, #about {
-    /* You can add min-height or other styles here if needed */
+    /* If the first section is empty, it will now have zero height */
+    /* We also remove its bottom padding if it's empty to reclaim all space */
+}
+#hero:empty,
+#about:empty {
+    padding-bottom: 0;
 }
 
 
@@ -138,14 +135,11 @@ section {
 
 #contact .contact-content {
     width: 100%;
-    max-width: 800px; /* Constrain the width of the text block */
+    max-width: 800px;
 }
 
 
 /* PROJECTS SECTION (GRID) */
-#projects {
-    /* No text-align needed as the grid fills the space */
-}
 
 /* The Grid Container */
 .project-grid {
@@ -157,24 +151,12 @@ section {
 
 /* The Grid Item (Card) */
 .project-card {
-    /* UPDATED: This now applies to all screen sizes, creating a single column */
+    /* This rule ensures the card is always one full column wide.
+       It is not overridden in any media query. */
     grid-column: span 12;
 
-    /* UPDATED: Simplified card styling */
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    overflow: hidden; /* Clips the image/video to the card's border-radius */
+    overflow: hidden;
 }
-
-.card-img {
-    /* This class is now used on both <img> and <video> tags */
-    /* Base styles for img,video cover width and height already */
-}
-
-
-/* =================================================================
-   MEDIA QUERIES - REMOVED
-   The media queries that changed the .project-card grid-column
-   have been removed to keep the layout as a single column.
-================================================================= */
