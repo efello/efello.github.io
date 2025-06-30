@@ -115,19 +115,38 @@
   <script>
     const galleryItems = [
       { file: "flohaxovl.png", type: 'image' },
+      { file: "floinnvd.png", type: 'image' },
+
+      
+      
+      { file: "flocloudwaveii.png", type: 'image'},
+      { file: "floinnvl.png", type: 'image' },
+      { file: "flowatvpfe.png", type: 'image' },
+
       {
         type: 'text',
-        content: 'This portfolio now uses a single-column grid. All items stack vertically, ensuring only one item is visible per row.',
+        content: 'Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text.',
         bgColor: '#1F2937',
         textColor: '#9CA3AF'
       },
-      // colSpan has been removed. This item will now only span two rows.
-      { file: "flocloudwaveii.png", type: 'image', rowSpan: 2 },
-      { file: "flowatvpfe.png", type: 'image' },
+      { file: "floinnvd.png", type: 'image' },
+      
       { file: "flolosangeb.png", type: 'image' },
-      // A video example
+      { file: "floinnvl.png", type: 'image' },
+
+      {
+        type: 'text',
+        content: 'Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.',
+        bgColor: '#000000',
+        textColor: '#D1D5DB'
+      },
+      
+      { file: "flofriiibi.png", type: 'full' },
+      { file: "floinnvl.png", type: 'image' },
+
       { file: "flo x color cool.mp4", type: 'video' },
       { file: "flofriiibi.png", type: 'image' },
+      { file: "floinnvd.png", type: 'image' },
       {
         type: 'text',
         content: 'For inquiries or collaborations, please feel free to get in touch. <br><br> <a href="mailto:florent.campana@gmail.com">contact</a>',
@@ -136,7 +155,7 @@
       }
     ];
 
-    // Restored your original media path
+    
     const mediaPath = "images/"; 
     const galleryContainer = document.getElementById('gallery-container');
 
@@ -144,10 +163,10 @@
       const gridItem = document.createElement('div');
       gridItem.className = 'grid-item';
       
-      // Stagger the animation
+      
       gridItem.style.setProperty('--animation-delay', `${index * 50}ms`);
 
-      // Apply row span if it exists in the data. colSpan logic removed.
+      
       if (item.rowSpan) gridItem.classList.add(`grid-row-span-${item.rowSpan}`);
 
       switch (item.type) {
