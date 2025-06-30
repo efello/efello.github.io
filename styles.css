@@ -3,8 +3,6 @@
 ================================================================= */
 
 :root {
-    --section-padding-block: clamp(3.75rem, 8vw, 6.25rem);
-    --container-gap: clamp(3rem, 6vw, 4rem);
     --grid-gap: clamp(1rem, 2.5vw, 1.25rem);
 
     --primary: #007bff;
