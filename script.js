@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 duration: '200%' // Animation lasts for 2x the viewport height of scrolling
             })
             .setTween(background, {
-                y: '60%', // Moves the background down by 60% of the card's height
+                y: '100%', // Moves the background down by 60% of the card's height
                 ease: 'none'
             })
             .addTo(controller);
