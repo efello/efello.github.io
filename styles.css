@@ -1,28 +1,23 @@
 /* =================================================================
-   ROOT VARIABLES
+   Final & Cleaned Styles
 ================================================================= */
 
 :root {
-    /* Define clamp values in variables for site-wide consistency */
-    --section-padding-block: clamp(3.75rem, 8vw, 6.25rem); /* 60px -> 100px */
-    --container-gap: clamp(3rem, 6vw, 4rem); /* 48px -> 64px */
-    --grid-gap: clamp(1rem, 2.5vw, 1.25rem); /* 16px -> 20px */
+    --section-padding-block: clamp(3.75rem, 8vw, 6.25rem);
+    --container-gap: clamp(3rem, 6vw, 4rem);
+    --grid-gap: clamp(1rem, 2.5vw, 1.25rem);
 
-    /* Color Palette */
     --primary: #007bff;
-    --primary-light: #f0f8ff;
     --dark: #1a1a1a;
     --off-white: #f8f9fa;
     --text-color: #333;
     --text-light: #f8f9fa;
 }
 
-
 /* =================================================================
    BASE & RESET STYLES
 ================================================================= */
 
-/* A basic reset */
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
@@ -34,26 +29,14 @@ html {
 }
 
 body {
+    margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: var(--text-color);
     background-color: var(--off-white);
     line-height: 1.6;
 }
 
-h1, h2, h3 {
-    line-height: 1.2;
-    margin-bottom: 0.5em; /* Spacing below headings */
-}
-
-p {
-    margin-bottom: 1em; /* Spacing between paragraphs */
-}
-
-p:last-of-type {
-    margin-bottom: 0;
-}
-
-img, video { /* Added video to this rule */
+img, video {
     display: block;
     width: 100%;
     height: auto;
@@ -70,7 +53,7 @@ a {
 
 
 /* =================================================================
-   CORE LAYOUT SYSTEM (Mobile First)
+   CORE LAYOUT SYSTEM
 ================================================================= */
 
 section {
@@ -80,11 +63,24 @@ section {
     padding-bottom: var(--section-padding-block);
 }
 
+/* FIX #1: REMOVE TOP SPACE
+  This targets the first <section> inside <main> and sets its
+  top padding to 0, removing the unwanted space.
+*/
+main > section:first-of-type {
+    padding-top: 0;
+}
+/* If the first sections are empty, remove their bottom padding too */
+#hero:empty,
+#about:empty {
+    padding-bottom: 0;
+}
+
+
 .container {
     width: 100%;
     max-width: 1280px;
     margin-inline: auto;
-    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -103,11 +99,6 @@ section {
     color: var(--text-light);
     border-radius: 4px;
     font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.button-solid:hover {
-    background-color: #0056b3;
 }
 
 .eyebrow {
@@ -124,13 +115,6 @@ section {
    SECTION SPECIFIC STYLES
 ================================================================= */
 
-/* Empty sections will just take up padding space */
-#hero, #about {
-    /* You can add min-height or other styles here if needed */
-}
-
-
-/* CONTACT SECTION */
 #contact {
     background-color: #fff;
     text-align: center;
@@ -138,16 +122,12 @@ section {
 
 #contact .contact-content {
     width: 100%;
-    max-width: 800px; /* Constrain the width of the text block */
+    max-width: 800px;
 }
 
 
 /* PROJECTS SECTION (GRID) */
-#projects {
-    /* No text-align needed as the grid fills the space */
-}
 
-/* The Grid Container */
 .project-grid {
     width: 100%;
     display: grid;
@@ -155,26 +135,15 @@ section {
     gap: var(--grid-gap);
 }
 
-/* The Grid Item (Card) */
 .project-card {
-    /* UPDATED: This now applies to all screen sizes, creating a single column */
-    grid-column: span 12;
+    /* FIX #2: FORCE SINGLE COLUMN
+      This ensures each card spans all 12 columns. The '!important'
+      is necessary to override the stubborn landscape style.
+    */
+    grid-column: span 12 !important;
 
-    /* UPDATED: Simplified card styling */
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    overflow: hidden; /* Clips the image/video to the card's border-radius */
+    overflow: hidden;
 }
-
-.card-img {
-    /* This class is now used on both <img> and <video> tags */
-    /* Base styles for img,video cover width and height already */
-}
-
-
-/* =================================================================
-   MEDIA QUERIES - REMOVED
-   The media queries that changed the .project-card grid-column
-   have been removed to keep the layout as a single column.
-================================================================= */
