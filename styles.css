@@ -90,6 +90,7 @@ section {
     text-align: center;
     padding-top: 3rem;
     padding-bottom: 3rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 /* PROJECTS SECTION (GRID) */
@@ -101,10 +102,15 @@ section {
 }
 
 .project-card {
+    /* Original styles */
     background: #000;
     border-radius: 1px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.008);
+
     
+    position: relative;                      
+    z-index: 2;                              
+    box-shadow: 0 1rem 3rem rgba(0,0,0,0.4); 
+    transform: translateZ(0);                
 }
 
 /* =================================================================
@@ -119,7 +125,7 @@ section {
     align-items: center;
     min-height: 350px; /* Gives the card a substantial feel */
     border-radius: 1px; /* Matches the project-card */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.008);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .text-card p {
@@ -189,63 +195,34 @@ section {
 }
 
 .card-tra {
-    position: relative; 
+    position: relative;
+    z-index: -1; /* Sits below the other cards */
+    overflow: hidden; /* Already present, good practice */
     border-radius: 1px;
-    overflow: hidden;
     
-    /* Set a minimum height so the background is visible */
-    min-height: 50vh; /* 50% of the viewport height, adjust as needed */
+    /* This is the KEY property. It pulls the card UP by 25% of the
+       viewport height, tucking it behind the card above it. */
+    margin-top: -25vh;
 
-    /* --- PARALLAX PROPERTIES --- */
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed; /* This is the magic parallax property! */
+    /* The total scrollable height is now min-height MINUS the overlap.
+       e.g., 75vh - 25vh = 50vh of visible scrolling. */
+    min-height: 75vh;
     
-    /* We still keep the fade-in animation */
-    opacity: 0;
-    transform: translateY(20px);
-    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+    /* --- PARALLAX & ANIMATION --- */
+    background-position: center;
+    background-size: cover;       /* 'cover' is better than 'auto' for full backgrounds */
+    background-attachment: fixed; /* Your original parallax effect */
+    
+    opacity: 1; /* Make it visible by default */
+    transform: translateY(0); /* Put it in its final position */
+    transition: transform 1.6s ease-out, opacity 1.6s ease-out;
+
+    /* Removed the yellow box-shadow as the top card's shadow now provides depth */
 }
 
-/* This class is still used by our IntersectionObserver for the fade-in */
+/* Your .in-view rule remains perfect as is. No changes needed here. */
 .card-tra.in-view {
-    opacity: 1; /* Changed from 0.7 to 1 for better visibility */
+    opacity: 1;
     transform: translateY(0);
 }
 
-/* The hover effects are no longer needed for this parallax style */
-
-
-/* Text overlay styles remain mostly the same */
-.card-tra-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 60%);
-    padding: 2rem;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-/* Text styles inside the overlay */
-.card-tra-content .card-title {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.card-tra-content .card-text {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}
-
-.card-tra-content .card-text small {
-    opacity: 0.8;
-}

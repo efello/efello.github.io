@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 // Calculate scale: starts at 1, goes up to 1.15 at the center, then back to 1
                 // The Math.abs makes it zoom in from both top and bottom
-                const scale = 1 + (1 - Math.abs(distanceFromCenter)) * 0.05;
+                const scale = 1 + (1 - Math.abs(distanceFromCenter)) * 0.15;
 
                 // Only apply the effect when the card is in the viewport
                 if (cardRect.top < viewportHeight && cardRect.bottom > 0) {
