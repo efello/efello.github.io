@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flo | Visual Portfolio</title>
+  <title>Flo | Grid Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --grid-gap: 1rem;
-      --background-color: #0a0a0a;
+      --grid-gap: 0rem;
+      --background-color: #000;
       --text-color: #E5E7EB;
-      --border-radius: 0.5rem;
+      --border-radius: 0.0rem;
     }
 
     *, *::before, *::after {
@@ -36,36 +36,13 @@
     /* --- Grid Layout --- */
     .gallery-container {
       display: grid;
+      /* This is the key change to force a single-column layout */
+      grid-template-columns: 1fr;
       gap: var(--grid-gap);
-      grid-auto-flow: dense;
-      max-width: 1400px; /* Prevent stretching too wide */
-      margin: 0 auto; /* Center the container */
-      
-      /* Responsive grid columns */
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
-
-    /* Better responsive breakpoints */
-    @media (min-width: 768px) {
-      .gallery-container {
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .gallery-container {
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      }
-    }
-
-    @media (min-width: 1200px) {
-      .gallery-container {
-        grid-template-columns: repeat(3, 1fr); /* Fixed 3 columns on large screens */
-      }
     }
 
     .grid-item {
-      background-color: #111;
+      background-color: #111; /* Default background for items */
       border-radius: var(--border-radius);
       overflow: hidden;
       display: flex;
@@ -73,51 +50,24 @@
       animation: fadeIn 1s ease-in-out forwards;
       opacity: 0;
       animation-delay: var(--animation-delay, 0s);
-      min-height: 200px; /* Ensure minimum height */
-    }
-
-    /* Column and row spanning - more controlled */
-    .grid-col-span-2 { 
-      grid-column: span 2; 
     }
     
-    .grid-col-span-3 { 
-      grid-column: span 3; 
-    }
+    /* Class for row spanning. colSpan classes removed as they no longer apply. */
+    .grid-row-span-2 { grid-row: span 2; }
     
-    .grid-row-span-2 { 
-      grid-row: span 2; 
+    @media (max-width: 768px) {
+       /* Reset the row span on mobile for a consistent vertical flow */
+       .grid-row-span-2 {
+           grid-row: span 1;
+       }
     }
 
-    /* Mobile adjustments */
-    @media (max-width: 767px) {
-      .gallery-container {
-        grid-template-columns: 1fr; /* Single column on mobile */
-      }
-      
-      .grid-col-span-2,
-      .grid-col-span-3 {
-        grid-column: span 1;
-      }
-      
-      .grid-row-span-2 {
-        grid-row: span 1;
-      }
-    }
-
-    /* Tablet adjustments */
-    @media (min-width: 768px) and (max-width: 1023px) {
-      .grid-col-span-3 {
-        grid-column: span 2; /* Reduce 3-span to 2-span on tablets */
-      }
-    }
 
     /* --- Content Styling --- */
     .grid-item__media {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      min-height: 200px; /* Ensure media has minimum height */
     }
 
     .grid-item__text-content {
@@ -127,7 +77,7 @@
       justify-content: center;
       flex-grow: 1;
     }
-
+    
     .grid-item__title {
       font-size: 1.75rem;
       font-weight: 700;
@@ -139,7 +89,7 @@
       line-height: 1.6;
       margin: 0;
     }
-
+    
     .grid-item__body a {
       text-decoration: underline;
       color: inherit;
@@ -159,20 +109,20 @@
   </style>
 </head>
 <body>
+
   <main class="gallery-container" id="gallery-container"></main>
-  
+
   <script>
     const galleryItems = [
       { file: "flohaxovl.png", type: 'image' },
       {
         type: 'text',
-        title: 'Responsive Grid',
-        content: 'This portfolio is now a responsive grid. Items automatically wrap and resize. You can even feature specific items by making them span multiple columns or rows.',
+        content: 'This portfolio now uses a single-column grid. All items stack vertically, ensuring only one item is visible per row.',
         bgColor: '#1F2937',
         textColor: '#9CA3AF'
       },
-      // This item will span two columns on wider screens
-      { file: "flocloudwaveii.png", type: 'image', colSpan: 2 },
+      // colSpan has been removed. This item will now only span two rows.
+      { file: "flocloudwaveii.png", type: 'image', rowSpan: 2 },
       { file: "flowatvpfe.png", type: 'image' },
       { file: "flolosangeb.png", type: 'image' },
       // A video example
@@ -186,7 +136,8 @@
       }
     ];
 
-    const mediaPath = "images/";
+    // Restored your original media path
+    const mediaPath = "images/"; 
     const galleryContainer = document.getElementById('gallery-container');
 
     galleryItems.forEach((item, index) => {
@@ -195,41 +146,44 @@
       
       // Stagger the animation
       gridItem.style.setProperty('--animation-delay', `${index * 50}ms`);
-      
-      // Apply column and row spans if they exist in the data
-      if (item.colSpan) gridItem.classList.add(`grid-col-span-${item.colSpan}`);
+
+      // Apply row span if it exists in the data. colSpan logic removed.
       if (item.rowSpan) gridItem.classList.add(`grid-row-span-${item.rowSpan}`);
 
       switch (item.type) {
         case 'image': {
           const img = document.createElement('img');
+          // Restored original image source logic
           img.src = `${mediaPath}${item.file}`;
           img.alt = `Image: ${item.file}`;
           img.className = 'grid-item__media';
-          img.loading = 'lazy';
+          img.loading = 'lazy'; // Improve performance
           img.onerror = () => console.error(`Failed to load image: ${img.src}`);
           gridItem.appendChild(img);
           break;
         }
+
         case 'video': {
-          const video = document.createElement('video');
-          video.src = `${mediaPath}${item.file}`;
-          video.className = 'grid-item__media';
-          video.autoplay = true;
-          video.loop = true;
-          video.muted = true;
-          video.playsInline = true;
-          video.onerror = () => console.error(`Failed to load video: ${video.src}`);
-          gridItem.appendChild(video);
-          break;
+            // Restored original video element
+            const video = document.createElement('video');
+            video.src = `${mediaPath}${item.file}`;
+            video.className = 'grid-item__media';
+            video.autoplay = true;
+            video.loop = true;
+            video.muted = true;
+            video.playsInline = true;
+            video.onerror = () => console.error(`Failed to load video: ${video.src}`);
+            gridItem.appendChild(video);
+            break;
         }
+
         case 'text': {
           gridItem.style.backgroundColor = item.bgColor || '#111827';
           gridItem.style.color = item.textColor || 'inherit';
-          
+
           const textContent = document.createElement('div');
           textContent.className = 'grid-item__text-content';
-          
+
           let innerHTML = '';
           if (item.title) {
             innerHTML += `<h2 class="grid-item__title">${item.title}</h2>`;
@@ -237,7 +191,6 @@
           if (item.content) {
             innerHTML += `<p class="grid-item__body">${item.content}</p>`;
           }
-          
           textContent.innerHTML = innerHTML;
           gridItem.appendChild(textContent);
           break;
@@ -247,5 +200,6 @@
       galleryContainer.appendChild(gridItem);
     });
   </script>
+
 </body>
 </html>
