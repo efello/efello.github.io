@@ -54,31 +54,7 @@
             z-index: 1;
         }
         
-        /* Overlay for the title and description */
-        .fullscreen-section .overlay {
-            position: relative;
-            z-index: 10;
-            text-align: center;
-            color: white;
-            padding: 2rem;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 0.5rem;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            max-width: 90%;
-            min-height: 100px; /* Give the empty overlay some dimension */
-            min-width: 200px;
-            /* Fade in effect for the text */
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-        }
         
-        /* Show the overlay on hover for media sections */
-        .fullscreen-section[data-media="true"]:hover .overlay {
-            opacity: 1;
-            transform: translateY(0);
-        }
 
         /* Arrow icon for scroll indication */
         .scroll-indicator {
