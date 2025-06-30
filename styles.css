@@ -103,7 +103,8 @@ section {
 .project-card {
     background: #000;
     border-radius: 1px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.008);
+    
 }
 
 /* =================================================================
@@ -118,6 +119,7 @@ section {
     align-items: center;
     min-height: 350px; /* Gives the card a substantial feel */
     border-radius: 1px; /* Matches the project-card */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.008);
 }
 
 .text-card p {
@@ -184,4 +186,66 @@ section {
     box-shadow: 0 0 2rem rgba(0, 0, 0, 0.75);
     border-radius: 3px;
     cursor: default; /* Use default cursor for the media itself */
+}
+
+.card-tra {
+    position: relative; 
+    border-radius: 1px;
+    overflow: hidden;
+    
+    /* Set a minimum height so the background is visible */
+    min-height: 50vh; /* 50% of the viewport height, adjust as needed */
+
+    /* --- PARALLAX PROPERTIES --- */
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed; /* This is the magic parallax property! */
+    
+    /* We still keep the fade-in animation */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
+
+/* This class is still used by our IntersectionObserver for the fade-in */
+.card-tra.in-view {
+    opacity: 1; /* Changed from 0.7 to 1 for better visibility */
+    transform: translateY(0);
+}
+
+/* The hover effects are no longer needed for this parallax style */
+
+
+/* Text overlay styles remain mostly the same */
+.card-tra-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 60%);
+    padding: 2rem;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Text styles inside the overlay */
+.card-tra-content .card-title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.card-tra-content .card-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.card-tra-content .card-text small {
+    opacity: 0.8;
 }
