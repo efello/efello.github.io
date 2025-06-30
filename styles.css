@@ -39,7 +39,6 @@ html {
 }
 
 body {
-    /* Set the default font-family to your original choice */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: var(--text-color);
     background-color: #000;
@@ -102,11 +101,8 @@ section {
 }
 
 .project-card {
-    /* Original styles */
     background: #000;
     border-radius: 1px;
-
-    
     position: relative;                      
     z-index: 2;                              
     box-shadow: 0 1rem 3rem rgba(0,0,0,0.4); 
@@ -117,32 +113,29 @@ section {
    NEW TEXT CARD STYLES
 ================================================================= */
 
-/* Base style for ALL text cards */
 .text-card {
-    padding: clamp(2.5rem, 8vw, 4rem); /* Responsive padding */
+    padding: clamp(2.5rem, 8vw, 4rem);
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 350px; /* Gives the card a substantial feel */
-    border-radius: 1px; /* Matches the project-card */
+    min-height: 350px;
+    border-radius: 1px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .text-card p {
-    font-family: 'Quicksand', sans-serif; /* Apply the Quicksand font */
-    font-size: clamp(1.125rem, 3vw, 1.5rem); /* Responsive font size */
+    font-family: 'Quicksand', sans-serif;
+    font-size: clamp(1.125rem, 3vw, 1.5rem);
     line-height: 1.7;
-    text-align: center; /* As requested */
-    max-width: 700px; /* Prevents text lines from becoming too wide on large screens */
+    text-align: center;
+    max-width: 700px;
 }
 
-/* Style for the dark card */
 .text-card-dark {
     background-color: #000;
     color: #fff;
 }
 
-/* Style for the light card */
 .text-card-light {
     background-color: #fff;
     color: #000;
@@ -160,21 +153,15 @@ section {
     height: 100%;
     background: rgba(0, 0, 0, 0.9);
     z-index: 1000;
-
-    /* Center the content */
     display: flex;
     justify-content: center;
     align-items: center;
-
-    /* Hidden by default */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-
-    cursor: pointer; /* Indicates the background can be clicked to close */
+    cursor: pointer;
 }
 
-/* The state when the lightbox is active */
 .lightbox-overlay.active {
     opacity: 1;
     visibility: visible;
@@ -183,46 +170,35 @@ section {
 .lightbox-overlay img,
 .lightbox-overlay video {
     display: block;
-    /* Ensure the media fits within the screen without being cropped */
     max-width: 99%;
     max-height: 99%;
     object-fit: contain;
-
-    /* A subtle effect to lift the image from the background */
     box-shadow: 0 0 2rem rgba(0, 0, 0, 0.75);
     border-radius: 3px;
-    cursor: default; /* Use default cursor for the media itself */
+    cursor: default;
 }
 
+/* =================================================================
+   PARALLAX CARD STYLES
+================================================================= */
+
+/* This is now the parallax container */
 .card-tra {
-    position: relative;
-    z-index: -1; /* Sits below the other cards */
-    overflow: hidden; /* Already present, good practice */
+    position: relative; /* Must be relative for child positioning */
+    z-index: 1;
+    overflow: hidden; /* This is crucial for the parallax effect */
     border-radius: 1px;
-    
-    /* This is the KEY property. It pulls the card UP by 25% of the
-       viewport height, tucking it behind the card above it. */
-    margin-top: -25vh;
+    min-height: 55vh;
+    width: 100%;
+    /* Background properties are now handled by the child */
+}
 
-    /* The total scrollable height is now min-height MINUS the overlap.
-       e.g., 75vh - 25vh = 50vh of visible scrolling. */
-    min-height: 75vh;
-    
-    /* --- PARALLAX & ANIMATION --- */
+/* The new inner div that holds the moving background */
+.parallax-bg {
+    position: relative;
+    height: 200%; /* Makes the image taller than the container */
+    width: 100%;
+    top: -100%; /* Hides the extra top height, allows for upward movement illusion */
+    background-size: cover;
     background-position: center;
-    background-size: cover;       /* 'cover' is better than 'auto' for full backgrounds */
-    background-attachment: fixed; /* Your original parallax effect */
-    
-    opacity: 1; /* Make it visible by default */
-    transform: translateY(0); /* Put it in its final position */
-    transition: transform 1.6s ease-out, opacity 1.6s ease-out;
-
-    /* Removed the yellow box-shadow as the top card's shadow now provides depth */
 }
-
-/* Your .in-view rule remains perfect as is. No changes needed here. */
-.card-tra.in-view {
-    opacity: 1;
-    transform: translateY(0);
-}
-
