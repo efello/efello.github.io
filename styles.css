@@ -176,8 +176,8 @@ section {
 .lightbox-overlay video {
     display: block;
     /* Ensure the media fits within the screen without being cropped */
-    max-width: 95%;
-    max-height: 90%;
+    max-width: 99%;
+    max-height: 99%;
     object-fit: contain;
 
     /* A subtle effect to lift the image from the background */
