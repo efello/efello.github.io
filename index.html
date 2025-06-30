@@ -41,7 +41,7 @@
             overflow: hidden; /* Hide parts of the media that overflow the section */
         }
 
-        /* Styling for the media within each section */
+        /* Base styling for media within each section */
         .fullscreen-section img,
         .fullscreen-section video {
             position: absolute;
@@ -49,13 +49,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Cover the entire screen without stretching */
             z-index: 1;
+            /* IMPORTANT: object-fit is now handled by Tailwind classes applied in JS.
+               We keep it here as a fallback or if JS fails for some reason.
+               However, the JS will *override* this with specific Tailwind classes.
+            */
+            object-fit: contain; /* Default for smaller screens, will be overridden by Tailwind on larger screens */
         }
 
-        /* No scroll-indicator styles needed, as it's removed */
-
-        @keyframes bounce {
+        @keyframes bounce { /* Still keeping this as it was in your original code, even if not currently used */
             0%, 20%, 50%, 80%, 100% {
                 transform: translateX(-50%) translateY(0);
             }
@@ -139,12 +141,12 @@
             function populateGallery() {
                 artworks.forEach(item => {
                     const section = document.createElement('section');
-                    section.className = 'fullscreen-section fade-in'; // Common classes for all sections
+                    section.className = 'fullscreen-section fade-in';
                     
                     switch(item.type) {
                         case 'image':
                         case 'video':
-                            section.dataset.media = 'true'; // Mark as a media section for the hover effect
+                            section.dataset.media = 'true';
                             let mediaElement;
                             if (item.type === 'image') {
                                 mediaElement = document.createElement('img');
@@ -161,9 +163,13 @@
                                 mediaElement.onerror = () => console.error(`Failed to load video: ${item.file}`);
                             }
 
-                            // Create the overlay for the hover effect, but leave it empty
+                            // *** KEY CHANGE HERE: Add responsive object-fit classes ***
+                            // Default: object-contain (mobile-first)
+                            // On large screens (lg): object-cover
+                            mediaElement.classList.add('object-contain', 'lg:object-cover');
+                            
                             const overlay = document.createElement('div');
-                            overlay.className = 'overlay'; // Add other Tailwind classes here if needed for overlay styling
+                            overlay.className = 'overlay';
 
                             section.appendChild(mediaElement);
                             section.appendChild(overlay);
@@ -173,9 +179,7 @@
                             section.style.backgroundColor = item.bgColor || '#111827';
                             section.style.color = item.textColor || '#FFFFFF';
                             
-                            // UPDATED LOGIC FOR RESPONSIVE TEXT CONTAINER
                             const textContainer = document.createElement('div');
-                            // Tailwind classes for responsive padding and font size
                             textContainer.className = 'p-4 sm:p-8 max-w-prose text-base sm:text-lg md:text-xl leading-relaxed text-center sm:text-left'; 
                             textContainer.innerHTML = item.content;
 
@@ -190,7 +194,6 @@
             // --- Initialize the gallery ---
             populateGallery();
             
-            // NO SCROLL INDICATOR LOGIC PRESENT, as per your request.
         });
     </script>
 
