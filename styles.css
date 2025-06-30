@@ -3,7 +3,6 @@
 ================================================================= */
 
 :root {
-    --grid-gap: clamp(1rem, 2.5vw, 1.25rem);
 
     --primary: #007bff;
     --dark: #1a1a1a;
@@ -55,8 +54,8 @@ a {
 ================================================================= */
 
 section {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 0;
+    padding-right: 0;
     padding-top: var(--section-padding-block);
     padding-bottom: var(--section-padding-block);
 }
