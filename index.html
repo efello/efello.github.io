@@ -137,7 +137,8 @@
       }
     ];
 
-    const mediaPath = "https://placehold.co/800x600/000000/FFFFFF?text="; // Using placeholder images for demonstration
+    // Restored your original media path
+    const mediaPath = "images/"; 
     const galleryContainer = document.getElementById('gallery-container');
 
     galleryItems.forEach((item, index) => {
@@ -153,22 +154,27 @@
       switch (item.type) {
         case 'image': {
           const img = document.createElement('img');
-          // Updated to use placeholder images that will load correctly
-          img.src = `${mediaPath}${item.file.split('.')[0]}`;
+          // Restored original image source logic
+          img.src = `${mediaPath}${item.file}`;
           img.alt = `Image: ${item.file}`;
           img.className = 'grid-item__media';
           img.loading = 'lazy'; // Improve performance
-          img.onerror = function() { this.src = 'https://placehold.co/600x400/222/fff?text=Error'; };
+          img.onerror = () => console.error(`Failed to load image: ${img.src}`);
           gridItem.appendChild(img);
           break;
         }
 
         case 'video': {
-            // Note: Autoplaying video may not work in all contexts, but a placeholder is added.
-            const textContent = document.createElement('div');
-            textContent.className = 'grid-item__text-content';
-            textContent.innerHTML = `<h2 class="grid-item__title">Video</h2><p class="grid-item__body">${item.file}</p>`;
-            gridItem.appendChild(textContent);
+            // Restored original video element
+            const video = document.createElement('video');
+            video.src = `${mediaPath}${item.file}`;
+            video.className = 'grid-item__media';
+            video.autoplay = true;
+            video.loop = true;
+            video.muted = true;
+            video.playsInline = true;
+            video.onerror = () => console.error(`Failed to load video: ${video.src}`);
+            gridItem.appendChild(video);
             break;
         }
 
