@@ -1,0 +1,254 @@
+/* =================================================================
+   ROOT VARIABLES
+================================================================= */
+
+:root {
+    /* Define clamp values in variables for site-wide consistency */
+    --section-padding-block: clamp(3.75rem, 8vw, 6.25rem); /* 60px -> 100px */
+    --container-gap: clamp(3rem, 6vw, 4rem); /* 48px -> 64px */
+    --grid-gap: clamp(1rem, 2.5vw, 1.25rem); /* 16px -> 20px */
+
+    /* Color Palette */
+    --primary: #007bff;
+    --primary-light: #f0f8ff;
+    --dark: #1a1a1a;
+    --off-white: #f8f9fa;
+    --text-color: #333;
+    --text-light: #f8f9fa;
+}
+
+
+/* =================================================================
+   BASE & RESET STYLES
+================================================================= */
+
+/* A basic reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--text-color);
+    background-color: var(--off-white);
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    line-height: 1.2;
+    margin-bottom: 0.5em; /* Spacing below headings */
+}
+
+p {
+    margin-bottom: 1em; /* Spacing between paragraphs */
+}
+
+p:last-of-type {
+    margin-bottom: 0;
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary);
+}
+
+
+/* =================================================================
+   CORE LAYOUT SYSTEM (Mobile First)
+   This is the foundation you described.
+================================================================= */
+
+/* 1. Section Parent Container */
+section {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: var(--section-padding-block);
+    padding-bottom: var(--section-padding-block);
+}
+
+/* 2. Content Container */
+.container {
+    width: 100%;
+    max-width: 1280px; /* Desktop max width */
+    margin-inline: auto; /* Modern way to center */
+    
+    /* Mobile-first flexbox setup */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
+    gap: var(--container-gap); /* Consistent vertical spacing */
+}
+
+
+/* =================================================================
+   REUSABLE COMPONENTS
+================================================================= */
+
+.button-solid {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary);
+    color: var(--text-light);
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.button-solid:hover {
+    background-color: #0056b3;
+}
+
+.eyebrow {
+    display: block;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+
+/* =================================================================
+   SECTION SPECIFIC STYLES
+================================================================= */
+
+/* HERO SECTION */
+#hero .hero-content,
+#hero .hero-image {
+    width: 100%;
+    text-align: center;
+}
+
+#hero .hero-content {
+    /* No max-width needed, it will be centered by align-items */
+    max-width: 650px; /* Example max-width for text content */
+}
+
+#hero .hero-image {
+    max-width: 400px; /* Control image size on mobile */
+}
+
+#hero .hero-title {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+}
+
+#hero .hero-subtitle {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    max-width: 550px;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+}
+
+/* ABOUT & CONTACT SECTION */
+#about, #contact {
+    background-color: #fff;
+}
+
+#contact {
+    text-align: center;
+}
+
+#about .about-content,
+#contact .contact-content {
+    width: 100%;
+    max-width: 800px; /* Constrain the width of the text block */
+}
+
+/* PROJECTS SECTION (GRID) */
+#projects {
+    text-align: center;
+}
+
+#projects .projects-heading {
+    width: 100%;
+    max-width: 650px;
+}
+
+/* The Grid Container */
+.project-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--grid-gap);
+}
+
+/* The Grid Item (Card) */
+.project-card {
+    /* Mobile: Card spans all 12 columns */
+    grid-column: span 12;
+
+    /* Card Styling */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden; /* Clips the image to the card's border-radius */
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.project-card .card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allows content to fill space, pushing button to bottom */
+}
+
+.project-card .card-description {
+    margin-bottom: 1.5rem;
+    flex-grow: 1; /* Pushes button down if cards have different text lengths */
+}
+
+
+/* =================================================================
+   MEDIA QUERIES (Tablet and Up)
+================================================================= */
+
+@media (min-width: 768px) {
+    /* HERO: Change flex-direction to row for a side-by-side layout */
+    #hero .container {
+        flex-direction: row;
+        text-align: left;
+        align-items: center; /* Vertically align items */
+    }
+
+    #hero .hero-content {
+        text-align: left;
+        /* The flex-basis and flex-grow properties can be used here
+           for more control over the child widths in the row layout. */
+    }
+
+    /* PROJECTS: 2-column grid */
+    .project-card {
+        grid-column: span 6; /* Each card spans 6 of 12 columns */
+    }
+}
+
+
+/* =================================================================
+   MEDIA QUERIES (Desktop and Up)
+================================================================= */
+
+@media (min-width: 1024px) {
+    /* PROJECTS: 3-column grid */
+    .project-card {
+        /* If you wanted 4 cards, you'd use span 3. For 3 cards, span 4. */
+        grid-column: span 4; /* Each card spans 4 of 12 columns (12/4 = 3 cards) */
+    }
+}
