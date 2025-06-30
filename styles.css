@@ -20,11 +20,13 @@
     margin: 0;
     padding: 0;
     width: 100%;
+    overflow-x: hidden;
 }
 
 html {
     scroll-behavior: smooth;
     width: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -34,12 +36,14 @@ body {
     color: var(--text-color);
     background-color: #000;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 img, video {
     display: block;
     width: 100%;
     height: auto;
+    overflow-x: hidden;
 }
 
 ul {
@@ -62,6 +66,7 @@ section {
     padding-right: 0;
     padding-top: var(--section-padding-block);
     padding-bottom: var(--section-padding-block);
+    overflow-x: hidden;
 }
 
 /* FIX #1: REMOVE TOP SPACE
@@ -75,6 +80,7 @@ main > section:first-of-type {
 #hero:empty,
 #about:empty {
     width: 100%;
+    overflow-x: hidden;
     padding-bottom: 0;
 }
 
@@ -87,6 +93,7 @@ main > section:first-of-type {
     flex-direction: column;
     justify-items: center;
     gap: var(--container-gap);
+    overflow-x: hidden;
 }
 
 .eyebrow {
@@ -97,6 +104,7 @@ main > section:first-of-type {
     font-weight: bold;
     color: var(--primary);
     margin-bottom: 0.5rem;
+    overflow-x: hidden;
 }
 
 
@@ -108,10 +116,12 @@ main > section:first-of-type {
     width: 100%;
     background-color: #000;
     text-align: center;
+    overflow-x: hidden;
 }
 
 #contact .contact-content {
     width: 100%;
+    overflow-x: hidden;
 }
 
 
@@ -119,6 +129,7 @@ main > section:first-of-type {
 
 .project-grid {
     width: 100%;
+    overflow-x: hidden;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: var(--grid-gap);
@@ -134,5 +145,5 @@ main > section:first-of-type {
     background: #000;
     border-radius: 1px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    overflow: hidden;
+    overflow-x: hidden;
 }
