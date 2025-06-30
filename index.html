@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flo | Visual Portfolio</title>
     
-    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -18,7 +16,8 @@
         html, body {
             margin: 0;
             padding: 0;
-            overflow: hidden; /* Prevent default body scroll */
+            overflow-x: hidden; /* Prevent horizontal scroll artifacts */
+            overflow-y: hidden; /* Prevent default body scroll */
             font-family: 'Inter', sans-serif;
             background-color: #111827; /* Fallback background */
         }
@@ -54,17 +53,7 @@
             z-index: 1;
         }
 
-        /* Arrow icon for scroll indication */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20;
-            animation: bounce 2s infinite;
-        }
-
-
+        /* No scroll-indicator styles needed, as it's removed */
 
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% {
@@ -90,7 +79,6 @@
 </head>
 <body class="antialiased">
 
-    <!-- The main container will be fully populated by JavaScript -->
     <main id="artwork-container"></main>
 
     <script>
@@ -113,7 +101,7 @@
 
                 {
                     type: 'text',
-                    content: 'Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.',
+                    content: 'This is a responsive text section! On smaller screens, the text will be a bit smaller and the padding around it will adjust to ensure readability. As the screen size increases, the text size will increase and the max-width will ensure comfortable line lengths. This text is quite long to demonstrate how it wraps and adapts. Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.',
                     bgColor: '#D1D5DB',
                     textColor: '#111827'
                 },
@@ -122,7 +110,7 @@
                 { type: 'image', file: 'floinnvl.png' },
                 {
                     type: 'text',
-                    content: 'Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.',
+                    content: 'Another responsive text section, but with a dark background and light text. The same responsiveness rules apply here, ensuring that your content is accessible and pleasant to read on any device, from a small mobile phone to a large desktop monitor. This is important for a good user experience. Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.',
                     bgColor: '#000000',
                     textColor: '#D1D5DB'
                 },
@@ -134,7 +122,7 @@
 
                 {
                     type: 'text',
-                    content: 'Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.',
+                    content: 'Final text section. Remember that responsive design is about ensuring your content is readable and usable across a wide range of devices. Using a framework like Tailwind CSS helps a lot in achieving this with its mobile-first approach. Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.',
                     bgColor: '#000000',
                     textColor: '#D1D5DB'
                 },
@@ -151,7 +139,7 @@
             function populateGallery() {
                 artworks.forEach(item => {
                     const section = document.createElement('section');
-                    section.className = 'fullscreen-section fade-in'; 
+                    section.className = 'fullscreen-section fade-in'; // Common classes for all sections
                     
                     switch(item.type) {
                         case 'image':
@@ -175,8 +163,8 @@
 
                             // Create the overlay for the hover effect, but leave it empty
                             const overlay = document.createElement('div');
-                            overlay.className = 'overlay';
-                            
+                            overlay.className = 'overlay'; // Add other Tailwind classes here if needed for overlay styling
+
                             section.appendChild(mediaElement);
                             section.appendChild(overlay);
                             break;
@@ -185,11 +173,10 @@
                             section.style.backgroundColor = item.bgColor || '#111827';
                             section.style.color = item.textColor || '#FFFFFF';
                             
-                            // *** UPDATED LOGIC HERE ***
-                            // Create a standard container for all text content to ensure
-                            // consistent padding and readable line-width for long paragraphs.
+                            // UPDATED LOGIC FOR RESPONSIVE TEXT CONTAINER
                             const textContainer = document.createElement('div');
-                            textContainer.className = 'p-8 max-w-prose text-lg leading-relaxed';
+                            // Tailwind classes for responsive padding and font size
+                            textContainer.className = 'p-4 sm:p-8 max-w-prose text-base sm:text-lg md:text-xl leading-relaxed text-center sm:text-left'; 
                             textContainer.innerHTML = item.content;
 
                             section.appendChild(textContainer);
@@ -202,6 +189,8 @@
 
             // --- Initialize the gallery ---
             populateGallery();
+            
+            // NO SCROLL INDICATOR LOGIC PRESENT, as per your request.
         });
     </script>
 
