@@ -3,11 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flo</title>
+  <title>Flo | Grid Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --grid-gap: 1rem;
+      --background-color: #0a0a0a;
+      --text-color: #E5E7EB;
+      --border-radius: 0.5rem;
+    }
+
     *, *::before, *::after {
       box-sizing: border-box;
     }
@@ -15,161 +22,119 @@
     body {
       font-family: 'Inter', sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #000;
-      color: #E5E7EB;
+      padding: var(--grid-gap);
+      background-color: var(--background-color);
+      color: var(--text-color);
     }
 
     img, video {
       max-width: 100%;
+      height: auto;
       display: block;
     }
 
-    .fade-in {
-      animation: fadeIn 1.2s ease-in-out;
+    /* --- Grid Layout --- */
+    .gallery-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: var(--grid-gap);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .section {
-      width: 100%;
-    }
-
-    .section-full-media {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    .grid-item {
+      background-color: #111; /* Default background for items */
+      border-radius: var(--border-radius);
       overflow: hidden;
-      padding: 0;
-      background-color: #000;
-    }
-
-    .section-full-media__image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .section-full-media__video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .section-parallax {
-      height: 75vh;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-attachment: fixed;
-    }
-
-    .section-text {
       display: flex;
+      flex-direction: column;
+      animation: fadeIn 1s ease-in-out forwards;
+      opacity: 0;
+      animation-delay: var(--animation-delay, 0s);
+    }
+    
+    /* Classes for column and row spanning */
+    .grid-col-span-2 { grid-column: span 2; }
+    .grid-col-span-3 { grid-column: span 3; }
+    .grid-row-span-2 { grid-row: span 2; }
+    
+    @media (max-width: 768px) {
+        /* On smaller screens, force featured items to take full width */
+       .grid-col-span-2,
+       .grid-col-span-3 {
+           grid-column: span 1;
+       }
+    }
+
+
+    /* --- Content Styling --- */
+    .grid-item__media {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .grid-item__text-content {
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
       justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 2rem;
+      flex-grow: 1;
     }
-
-    .section-text__container {
-      max-width: 800px;
-      text-align: center;
-    }
-
-    .section-text__title {
-      font-size: 2.5rem;
+    
+    .grid-item__title {
+      font-size: 1.75rem;
       font-weight: 700;
-      margin-bottom: 1.5rem;
+      margin: 0 0 1rem 0;
     }
 
-    .section-text__content {
-      font-size: 1.125rem;
+    .grid-item__body {
+      font-size: 1rem;
       line-height: 1.6;
+      margin: 0;
     }
-
-    .section-text__content a {
+    
+    .grid-item__body a {
       text-decoration: underline;
       color: inherit;
       opacity: 0.8;
       transition: opacity 0.2s ease;
     }
 
-    .section-text__content a:hover {
+    .grid-item__body a:hover {
       opacity: 1;
     }
 
-    @media (hover: none) and (pointer: coarse) {
-      .section-parallax {
-        background-attachment: scroll;
-        height: 50vh;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .section-text {
-        padding: 1.5rem;
-        min-height: 80vh;
-      }
-      .section-text__title {
-        font-size: 2rem;
-      }
-      .section-text__content {
-        font-size: 1rem;
-      }
-    }
-
-    @media screen and (orientation: portrait) {
-      .section-full-media {
-        height: auto;
-      }
-
-      .section-full-media__image {
-        width: 100vw;
-        height: auto;
-        object-fit: contain;
-      }
+    /* --- Animation --- */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <main id="gallery-container"></main>
+
+  <main class="gallery-container" id="gallery-container"></main>
 
   <script>
     const galleryItems = [
-      { file: "flohaxovl.png", type: 'full' },
-      { file: "floinnvd.png", type: 'parallax' },
-      { file: "flocloudwaveii.png", type: 'full' },
-      { file: "floinnvl.png", type: 'parallax' },
-      { file: "flowatvpfe.png", type: 'full' },
+      { file: "flohaxovl.png", type: 'image' },
       {
         type: 'text',
-        content: 'This is sample text. You can add long-form content, descriptions, or any other textual information here to break up the visual flow. This section has a light background.',
-        bgColor: '#D1D5DB',
-        textColor: '#111827'
+        title: 'Responsive Grid',
+        content: 'This portfolio is now a responsive grid. Items automatically wrap and resize. You can even feature specific items by making them span multiple columns or rows.',
+        bgColor: '#1F2937',
+        textColor: '#9CA3AF'
       },
-      { file: "floinnvd.png", type: 'parallax' },
-      { file: "flolosangeb.png", type: 'full' },
-      { file: "floinnvl.png", type: 'parallax' },
-      {
-        type: 'text',
-        title: 'About This Project',
-        content: 'Here, we can have a title and a paragraph. This approach allows for structured textual content with distinct visual styling, maintaining the narrative of the portfolio. The background is dark, matching the body.',
-        bgColor: '#000000',
-        textColor: '#D1D5DB'
-      },
-      { file: "flofriiibi.png", type: 'full' },
-      { file: "floinnvd.png", type: 'parallax' },
+      // This item will span two columns on wider screens
+      { file: "flocloudwaveii.png", type: 'image', colSpan: 2, rowSpan: 2 },
+      { file: "flowatvpfe.png", type: 'image' },
+      { file: "flolosangeb.png", type: 'image' },
+      // A video example
       { file: "flo x color cool.mp4", type: 'video' },
-      { file: "floinnvd.png", type: 'parallax' },
+      { file: "flofriiibi.png", type: 'image' },
       {
         type: 'text',
         content: 'For inquiries or collaborations, please feel free to get in touch. <br><br> <a href="mailto:florent.campana@gmail.com">contact</a>',
-        bgColor: '#000000',
+        bgColor: '#374151',
         textColor: '#D1D5DB'
       }
     ];
@@ -177,85 +142,65 @@
     const mediaPath = "images/";
     const galleryContainer = document.getElementById('gallery-container');
 
-    galleryItems.forEach(item => {
-      let section;
+    galleryItems.forEach((item, index) => {
+      const gridItem = document.createElement('div');
+      gridItem.className = 'grid-item';
+      
+      // Stagger the animation
+      gridItem.style.setProperty('--animation-delay', `${index * 50}ms`);
+
+      // Apply column and row spans if they exist in the data
+      if (item.colSpan) gridItem.classList.add(`grid-col-span-${item.colSpan}`);
+      if (item.rowSpan) gridItem.classList.add(`grid-row-span-${item.rowSpan}`);
 
       switch (item.type) {
-        case 'full':
-          section = document.createElement('section');
-          section.className = "section section-full-media fade-in";
-
+        case 'image': {
           const img = document.createElement('img');
           img.src = `${mediaPath}${item.file}`;
           img.alt = `Image: ${item.file}`;
-          img.className = "section-full-media__image";
-
-          if (item.fit === 'contain') {
-            img.style.objectFit = 'contain';
-            img.style.height = 'auto';
-            img.style.width = '100vw';
-            img.style.borderRadius = '0.5rem';
-          }
-
+          img.className = 'grid-item__media';
+          img.loading = 'lazy'; // Improve performance
           img.onerror = () => console.error(`Failed to load image: ${img.src}`);
-
-          section.appendChild(img);
-          galleryContainer.appendChild(section);
+          gridItem.appendChild(img);
           break;
+        }
 
-        case 'parallax':
-          section = document.createElement('section');
-          section.className = "section section-parallax fade-in";
-          section.style.backgroundImage = `url('${mediaPath}${item.file}')`;
-          galleryContainer.appendChild(section);
-          break;
-
-        case 'video':
-          section = document.createElement('section');
-          section.className = "section section-full-media fade-in";
-
+        case 'video': {
           const video = document.createElement('video');
           video.src = `${mediaPath}${item.file}`;
+          video.className = 'grid-item__media';
           video.autoplay = true;
           video.loop = true;
           video.muted = true;
           video.playsInline = true;
-          video.className = "section-full-media__video";
           video.onerror = () => console.error(`Failed to load video: ${video.src}`);
-
-          section.appendChild(video);
-          galleryContainer.appendChild(section);
+          gridItem.appendChild(video);
           break;
+        }
 
-        case 'text':
-          section = document.createElement('section');
-          section.className = "section section-text fade-in";
-          section.style.backgroundColor = item.bgColor || '#000000';
+        case 'text': {
+          gridItem.style.backgroundColor = item.bgColor || '#111827';
+          gridItem.style.color = item.textColor || 'inherit';
 
-          const textContainer = document.createElement('div');
-          textContainer.className = "section-text__container";
+          const textContent = document.createElement('div');
+          textContent.className = 'grid-item__text-content';
 
+          let innerHTML = '';
           if (item.title) {
-            const title = document.createElement('h2');
-            title.textContent = item.title;
-            title.className = "section-text__title";
-            title.style.color = item.textColor || 'inherit';
-            textContainer.appendChild(title);
+            innerHTML += `<h2 class="grid-item__title">${item.title}</h2>`;
           }
-
           if (item.content) {
-            const content = document.createElement('p');
-            content.innerHTML = item.content;
-            content.className = "section-text__content";
-            content.style.color = item.textColor || 'inherit';
-            textContainer.appendChild(content);
+            innerHTML += `<p class="grid-item__body">${item.content}</p>`;
           }
-
-          section.appendChild(textContainer);
-          galleryContainer.appendChild(section);
+          textContent.innerHTML = innerHTML;
+          gridItem.appendChild(textContent);
           break;
+        }
       }
+      
+      galleryContainer.appendChild(gridItem);
     });
   </script>
+
 </body>
 </html>
