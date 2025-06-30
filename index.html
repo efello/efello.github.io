@@ -1,163 +1,163 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galerie Parallaxe</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth; /* Adds smooth scrolling for a better user experience */
-        }
-        
-        /* * Note: background-attachment: fixed; can have performance implications
-         * and is often disabled on mobile browsers, where it will behave like `scroll`.
-         * The parallax effect may not work on all mobile devices.
-        */
-        .parallax-section {
-            height: 75vh; 
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover; 
-        }
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title></title>
+ <script src="https://cdn.tailwindcss.com"></script>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+ <style>
+  body {
+   font-family: 'Inter', sans-serif;
+  }
+ 
+  .parallax-section {
+   height: 75vh;
+   background-attachment: fixed;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+  }
 
-        .fullscreen-section {
-            height: 100vh; 
-        }
-        
-        .fade-in {
-            animation: fadeIn 1.2s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+ 
+  .fullscreen-section {
+   height: 100vh;
+  }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .parallax-section {
-                height: 50vh; /* Reduce height on smaller screens */
-            }
-        }
-    </style>
+ 
+  .fade-in {
+   animation: fadeIn 1.2s ease-in-out;
+  }
+  @keyframes fadeIn {
+   from { opacity: 0; }
+   to { opacity: 1; }
+  }
+ </style>
 </head>
 <body class="bg-black text-gray-200">
 
-    <div class="w-full">
-        <main id="gallery-container" class="w-full">
-            </main>
-    </div>
 
-    <script>
-        const galleryItems = [
-            { file: "flohaxovl.png", type: 'full' },
-            { file: "floinnvd.png", type: 'parallax' },
-            { file: "flocloudwaveii.png", type: 'full' },
-            { file: "floinnvl.png", type: 'parallax' },
-            { file: "flowatvpfe.png", type: 'full' },
-            { type: 'text', content: 'Ceci est un exemple de bloc de texte. Il occupe toute la hauteur de la vue et peut être utilisé pour présenter des informations, des citations ou des histoires entre les éléments visuels de la galerie.', bgColor: '#D1D5DB', textColor: '#111827' },
-            // { type: 'text', title: 'Titre d\'Exemple', content: 'Ce bloc de texte inclut un titre et un paragraphe. Les couleurs de fond et de texte sont entièrement personnalisables.', bgColor: '#111827', textColor: '#FFFFFF' },
-            { file: "floinnvd.png", type: 'parallax' },
-            { file: "flolosangeb.png", type: 'full' },
-            { file: "floinnvl.png", type: 'parallax' },
-            { type: 'text', content: 'Les possibilités sont variées, permettant une narration visuelle et textuelle fluide. Chaque section apparaît avec une animation de fondu pour une transition en douceur.', bgColor: '#000000', textColor: '#D1D5DB' },
-            { file: "flofriiibi.png", type: 'full' },
-            { file: "floinnvd.png", type: 'parallax' },
-            { file: "flo x color cool.mp4", type: 'video' },
-            { file: "floinnvd.png", type: 'parallax' },
-            { type: 'text', content: 'Pour toute question ou collaboration, n\'hésitez pas à me contacter. <a href="mailto:florent.campana@gmail.com" class="font-medium text-gray-200 hover:underline">contact</a>', bgColor: '#000000', textColor: '#D1D5DB' },
-        ];
-        
-        const mediaPath = "images/";
-        
-        const galleryContainer = document.getElementById('gallery-container');
+ <div class="w-full">
 
-        if (!galleryContainer) {
-            console.error("Error: Gallery container not found.");
-        } else if (galleryItems.length === 0) {
-            galleryContainer.innerHTML = `
-                <section class="fullscreen-section flex items-center justify-center">
-                    <p class="text-xl text-gray-400">La galerie est vide.</p>
-                </section>
-            `;
-        } else {
-            galleryItems.forEach(item => {
-                if (item.type === 'full') {
-                    const imageSection = document.createElement('section');
-                    imageSection.className = "fullscreen-section w-screen flex items-center justify-center p-4 md:p-8 fade-in";
-                    
-                    const img = document.createElement('img');
-                    img.src = `${mediaPath}${item.file}`;
-                    img.alt = item.file;
-                    img.className = "max-w-full max-h-full object-contain rounded-lg shadow-2xl shadow-black/50";
-                    
-                    img.onerror = function() {
-                        this.onerror = null; // Prevent infinite loop if fallback also fails
-                        this.parentElement.innerHTML = `<div class="text-red-400">Erreur de chargement: ${this.alt}</div>`;
-                    };
+ 
+  <main id="gallery-container" class="w-full">
+  
+  </main>
 
-                    imageSection.appendChild(img);
-                    galleryContainer.appendChild(imageSection);
+ </div>
 
-                } else if (item.type === 'parallax') {
-                    const parallaxSection = document.createElement('section');
-                    parallaxSection.className = "parallax-section fade-in";
-                    parallaxSection.style.backgroundImage = `url('${mediaPath}${item.file}')`;
-                    galleryContainer.appendChild(parallaxSection);
+ <script>
+  const galleryItems = [
+   { file: "flohaxovl.png", type: 'full' },
+   { file: "floinnvd.png", type: 'parallax' },
+   { file: "flocloudwaveii.png", type: 'full' },
+   { file: "floinnvl.png", type: 'parallax' },
+   { file: "flowatvpfe.png", type: 'full' },
+   { type: 'text', content: 'texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. ', bgColor: '#D1D5DB', textColor: '#111827' },
+   //{ type: 'text', title: 'titre', content: 'voici un titre', bgColor: '#111827', textColor: '#FFFFFF' },
+   { file: "floinnvd.png", type: 'parallax' },
+   { file: "flolosangeb.png", type: 'full' },
+   { file: "floinnvl.png", type: 'parallax' },
+   { type: 'text', content: 'texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. ', bgColor: '#000000', textColor: '#D1D5DB' },
+   { file: "flofriiibi.png", type: 'full' },
+   { file: "floinnvd.png", type: 'parallax' },
+   { file: "flo x color cool.m4v", type: 'video' },
+   { file: "floinnvd.png", type: 'parallax' },
+   { type: 'text', content: 'texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. texte sans titre. <a href="mailto:florent.campana@gmail.com" class="text-black-200 hover:underline">contact</a>', bgColor: '#000000', textColor: '#D1D5DB' },
+  ];
 
-                } else if (item.type === 'video') {
-                    const videoSection = document.createElement('section');
-                    videoSection.className = "fullscreen-section w-screen flex items-center justify-center overflow-hidden fade-in";
-                    
-                    const video = document.createElement('video');
-                    video.src = `${mediaPath}${item.file}`;
-                    video.autoplay = true;
-                    video.loop = true;
-                    video.muted = true;
-                    video.playsInline = true; // Essential for autoplay on iOS
-                    video.className = "w-full h-full object-cover";
+ 
+  const mediaPath = "images/";
 
-                    videoSection.appendChild(video);
-                    galleryContainer.appendChild(videoSection);
+ 
+  const galleryContainer = document.getElementById('gallery-container');
 
-                } else if (item.type === 'text') {
-                    const textSection = document.createElement('section');
-                    // Use responsive padding: smaller on mobile, larger on desktop
-                    textSection.className = "fullscreen-section w-screen flex items-center justify-center p-6 md:p-8 fade-in";
-                    textSection.style.backgroundColor = item.bgColor || '#000000';
+  if (galleryItems.length === 0) {
+  
+  } else {
+  
+   galleryItems.forEach(item => {
+   
+    if (item.type === 'full') {
+    
+     const imageSection = document.createElement('section');
+     imageSection.className = "fullscreen-section w-screen flex items-center justify-center p-4 fade-in";
+    
+     const img = document.createElement('img');
+     img.src = `${mediaPath}${item.file}`;
+     img.alt = `Image: ${item.file}`;
+     img.className = "max-w-full max-h-full object-contain rounded-lg shadow-2xl shadow-black/50";
+    
+     img.onerror = function() { /* ... (gestion d'erreur) ... */ };
 
-                    const textContainer = document.createElement('div');
-                    textContainer.className = "text-center max-w-3xl";
-                    
-                    if (item.title) {
-                        const title = document.createElement('h2');
-                        title.textContent = item.title;
-                        // Responsive font size: text-3xl on mobile -> text-4xl on medium screens -> text-5xl on large screens
-                        title.className = "text-3xl md:text-4xl lg:text-5xl font-bold mb-6";
-                        title.style.color = item.textColor || '#FFFFFF';
-                        textContainer.appendChild(title);
-                    }
-                    
-                    if (item.content) {
-                        const content = document.createElement('p');
-                        content.innerHTML = item.content; 
-                        // Responsive font size: text-lg on mobile -> text-xl on medium screens
-                        content.className = "text-lg md:text-xl leading-relaxed";
-                        content.style.color = item.textColor || '#D1D5DB';
-                        textContainer.appendChild(content);
-                    }
+     imageSection.appendChild(img);
+     galleryContainer.appendChild(imageSection);
 
-                    textSection.appendChild(textContainer);
-                    galleryContainer.appendChild(textSection);
-                }
-            });
-        }
-    </script>
+    } else if (item.type === 'parallax') {
+    
+     const parallaxSection = document.createElement('section');
+     parallaxSection.className = "parallax-section fade-in";
+     parallaxSection.style.backgroundImage = `url('${mediaPath}${item.file}')`;
+     galleryContainer.appendChild(parallaxSection);
+
+    } else if (item.type === 'video') {
+    
+     const videoSection = document.createElement('section');
+    
+     videoSection.className = "fullscreen-section w-screen flex items-center justify-center overflow-hidden fade-in";
+    
+     const video = document.createElement('video');
+     video.src = `${mediaPath}${item.file}`;
+    
+     video.autoplay = true;
+     video.loop = true;
+     video.muted = true;
+     video.playsInline = true;
+     video.className = "w-full h-full object-cover";
+
+     videoSection.appendChild(video);
+     galleryContainer.appendChild(videoSection);
+
+    } else if (item.type === 'text') {
+    
+     const textSection = document.createElement('section');
+     textSection.className = "fullscreen-section w-screen flex items-center justify-center p-8 fade-in";
+     textSection.style.backgroundColor = item.bgColor || '#000000';
+
+     const textContainer = document.createElement('div');
+     textContainer.className = "text-center max-w-3xl";
+
+    
+     if (item.title) {
+      const title = document.createElement('h2');
+      title.textContent = item.title;
+      title.className = "text-4xl md:text-5xl font-bold mb-6";
+      title.style.color = item.textColor || '#FFFFFF';
+      textContainer.appendChild(title);
+     }
+
+    
+     if (item.content) {
+      const content = document.createElement('p');
+      content.innerHTML = item.content;
+      content.className = "text-lg md:text-xl leading-relaxed";
+      content.style.color = item.textColor || '#D1D5DB';
+      textContainer.appendChild(content);
+     }
+
+
+
+     textSection.appendChild(textContainer);
+     galleryContainer.appendChild(textSection);
+
+    }
+   });
+  }
+
+ </script>
 
 </body>
 </html>
