@@ -1,15 +1,16 @@
 /* =================================================================
-   Final & Cleaned Styles
+   Final Version - With Overscroll Fix
 ================================================================= */
 
 :root {
+    --container-gap: 0; 
+    --grid-gap: 1rem;
 
     --primary: #007bff;
     --dark: #1a1a1a;
     --off-white: #f8f9fa;
     --text-color: #333;
     --text-light: #f8f9fa;
-    
 }
 
 /* =================================================================
@@ -20,31 +21,31 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+html, body {
     width: 100%;
-    overflow: scroll;
+    overflow-x: hidden;
 }
 
 html {
     scroll-behavior: smooth;
-    width: 100%;
-    overflow: scroll;
 }
 
 body {
-    width: 100%;
-    margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: var(--text-color);
     background-color: #000;
     line-height: 1.6;
-    overflow: scroll;
+    
+    /* THE FIX: This prevents the horizontal "bounce" effect on mobile */
+    overscroll-behavior-x: contain;
 }
 
 img, video {
     display: block;
-    width: 100%;
+    max-width: 100%;
     height: auto;
-    overflow: scroll;
 }
 
 ul {
@@ -56,96 +57,46 @@ a {
     color: var(--primary);
 }
 
-
 /* =================================================================
    CORE LAYOUT SYSTEM
 ================================================================= */
 
 section {
-    width: 100%;
     padding-left: 0;
     padding-right: 0;
-    padding-top: var(--section-padding-block);
-    padding-bottom: var(--section-padding-block);
-    overflow: scroll;
 }
-
-/* FIX #1: REMOVE TOP SPACE
-  This targets the first <section> inside <main> and sets its
-  top padding to 0, removing the unwanted space.
-*/
-main > section:first-of-type {
-    padding-top: 0;
-
-}
-/* If the first sections are empty, remove their bottom padding too */
-#hero:empty,
-#about:empty {
-    width: 100%;
-    overflow: scroll;
-    padding-bottom: 0;
-}
-
 
 .container {
     width: 100%;
     max-width: max-content;
     margin-inline: auto;
+    
     display: flex;
     flex-direction: column;
-    justify-items: center;
+    align-items: center;
     gap: var(--container-gap);
-    overflow: scroll;
 }
-
-.eyebrow {
-    width: 100%;
-    display: block;
-    text-transform: uppercase;
-    font-size: 0.875rem;
-    font-weight: bold;
-    color: var(--primary);
-    margin-bottom: 0.5rem;
-    overflow: scroll;
-}
-
 
 /* =================================================================
    SECTION SPECIFIC STYLES
 ================================================================= */
 
 #contact {
-    width: 100%;
-    background-color: #000;
     text-align: center;
-    overflow: scroll;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
 }
-
-#contact .contact-content {
-    width: 100%;
-    overflow: scroll;
-}
-
 
 /* PROJECTS SECTION (GRID) */
 
 .project-grid {
     width: 100%;
-    overflow: scroll;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
     gap: var(--grid-gap);
 }
 
 .project-card {
-    /* FIX #2: FORCE SINGLE COLUMN
-      This ensures each card spans all 12 columns. The '!important'
-      is necessary to override the stubborn landscape style.
-    */
-    grid-column: span 12 !important;
-
     background: #000;
     border-radius: 1px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    overflow: scroll;
 }
