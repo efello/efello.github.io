@@ -1,224 +1,224 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flo | Grid Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --grid-gap: 0rem;
-      --background-color: #000;
-      --text-color: #E5E7EB;
-      --border-radius: 0.0rem;
-    }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: var(--grid-gap);
-      background-color: var(--background-color);
-      color: var(--text-color);
-    }
-
-    img, video {
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* --- Grid Layout --- */
-    .gallery-container {
-      display: grid;
-      /* This is the key change to force a single-column layout */
-      grid-template-columns: 1fr;
-      gap: var(--grid-gap);
-    }
-
-    .grid-item {
-      background-color: #111; /* Default background for items */
-      border-radius: var(--border-radius);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      animation: fadeIn 1s ease-in-out forwards;
-      opacity: 0;
-      animation-delay: var(--animation-delay, 0s);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flo | Visual Portfolio</title>
     
-    /* Class for row spanning. colSpan classes removed as they no longer apply. */
-    .grid-row-span-2 { grid-row: span 2; }
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    @media (max-width: 768px) {
-       /* Reset the row span on mobile for a consistent vertical flow */
-       .grid-row-span-2 {
-           grid-row: span 1;
-       }
-    }
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
+    <style>
+        /* Custom styles for the full-screen scroll layout */
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent default body scroll */
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Fallback background */
+        }
 
-    /* --- Content Styling --- */
-    .grid-item__media {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+        /* The main container that enables scroll-snapping */
+        #artwork-container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory; /* Crucial for the snapping effect */
+        }
+        
+        /* Style for each full-screen section */
+        .fullscreen-section {
+            height: 100vh;
+            width: 100vw;
+            scroll-snap-align: start; /* Each section snaps to the start of the viewport */
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Hide parts of the media that overflow the section */
+        }
 
-    .grid-item__text-content {
-      padding: 2rem 1.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      flex-grow: 1;
-    }
-    
-    .grid-item__title {
-      font-size: 1.75rem;
-      font-weight: 700;
-      margin: 0 0 1rem 0;
-    }
+        /* Styling for the media within each section */
+        .fullscreen-section img,
+        .fullscreen-section video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the entire screen without stretching */
+            z-index: 1;
+        }
+        
+        /* Overlay for the title and description */
+        .fullscreen-section .overlay {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 0.5rem;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            max-width: 90%;
+            min-height: 100px; /* Give the empty overlay some dimension */
+            min-width: 200px;
+            /* Fade in effect for the text */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        
+        /* Show the overlay on hover for media sections */
+        .fullscreen-section[data-media="true"]:hover .overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    .grid-item__body {
-      font-size: 1rem;
-      line-height: 1.6;
-      margin: 0;
-    }
-    
-    .grid-item__body a {
-      text-decoration: underline;
-      color: inherit;
-      opacity: 0.8;
-      transition: opacity 0.2s ease;
-    }
+        /* Arrow icon for scroll indication */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            animation: bounce 2s infinite;
+        }
 
-    .grid-item__body a:hover {
-      opacity: 1;
-    }
-
-    /* --- Animation --- */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+    </style>
 </head>
-<body>
+<body class="antialiased">
 
-  <main class="gallery-container" id="gallery-container"></main>
+    <!-- The main container will be fully populated by JavaScript -->
+    <main id="artwork-container"></main>
 
-  <script>
-    const galleryItems = [
-      { file: "flohaxovl.png", type: 'image' },
-      { file: "floinnvd.png", type: 'image' },
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Your media path
+            const mediaPath = "images/";
 
-      
-      
-      { file: "flocloudwaveii.png", type: 'image'},
-      { file: "floinnvl.png", type: 'image' },
-      { file: "flowatvpfe.png", type: 'image' },
+            // =================================================================
+            // EDIT YOUR PORTFOLIO CONTENT HERE
+            // The entire page is built from this single array.
+            // =================================================================
+            const artworks = [
+                
+                { type: 'image', file: 'flohaxovl.png' },
+                { type: 'image', file: 'floinnvd.png' },
+                { type: 'image', file: 'flocloudwaveii.png' },
+                { type: 'image', file: 'floinnvl.png' },
+                { type: 'image', file: 'flowatvpfe.png' },
 
-      {
-        type: 'text',
-        content: 'Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text. Text is this text.',
-        bgColor: '#1F2937',
-        textColor: '#9CA3AF'
-      },
-      { file: "floinnvd.png", type: 'image' },
-      
-      { file: "flolosangeb.png", type: 'image' },
-      { file: "floinnvl.png", type: 'image' },
+                {
+                    type: 'text',
+                    content: 'Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.',
+                    bgColor: '#D1D5DB',
+                    textColor: '#111827'
+                },
+                { type: 'image', file: 'floinnvd.png' },
+                { type: 'image', file: 'flolosangeb.png' },
+                { type: 'image', file: 'floinnvl.png' },
+                {
+                    type: 'text',
+                    content: 'Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.',
+                    bgColor: '#000000',
+                    textColor: '#D1D5DB'
+                },
+                { type: 'image', file: 'flofriiibi.png' },
+                { type: 'image', file: 'floinnvd.png' },
 
-      {
-        type: 'text',
-        content: 'Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.',
-        bgColor: '#000000',
-        textColor: '#D1D5DB'
-      },
-      
-      { file: "flofriiibi.png", type: 'full' },
-      { file: "floinnvl.png", type: 'image' },
+                { type: 'video', file: 'flo x color cool.mp4' },
+                { type: 'image', file: 'floinnvd.png' },
 
-      { file: "flo x color cool.mp4", type: 'video' },
-      { file: "flofriiibi.png", type: 'image' },
-      { file: "floinnvd.png", type: 'image' },
-      {
-        type: 'text',
-        content: 'For inquiries or collaborations, please feel free to get in touch. <br><br> <a href="mailto:florent.campana@gmail.com">contact</a>',
-        bgColor: '#374151',
-        textColor: '#D1D5DB'
-      }
-    ];
+                {
+                    type: 'text',
+                    content: 'Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.Text is this text.',
+                    bgColor: '#000000',
+                    textColor: '#D1D5DB'
+                },
+            ];
 
-    
-    const mediaPath = "images/"; 
-    const galleryContainer = document.getElementById('gallery-container');
+            const container = document.getElementById('artwork-container');
 
-    galleryItems.forEach((item, index) => {
-      const gridItem = document.createElement('div');
-      gridItem.className = 'grid-item';
-      
-      
-      gridItem.style.setProperty('--animation-delay', `${index * 50}ms`);
+            if (!container) {
+                console.error("Artwork container not found!");
+                return;
+            }
 
-      
-      if (item.rowSpan) gridItem.classList.add(`grid-row-span-${item.rowSpan}`);
+            // --- Function to create and inject sections into the container ---
+            function populateGallery() {
+                artworks.forEach(item => {
+                    const section = document.createElement('section');
+                    section.className = 'fullscreen-section';
+                    
+                    switch(item.type) {
+                        case 'image':
+                        case 'video':
+                            section.dataset.media = 'true'; // Mark as a media section for the hover effect
+                            let mediaElement;
+                            if (item.type === 'image') {
+                                mediaElement = document.createElement('img');
+                                mediaElement.src = `${mediaPath}${item.file}`;
+                                mediaElement.alt = 'Artwork image';
+                                mediaElement.onerror = function() { this.onerror=null; this.src='https://placehold.co/1920x1080/ef4444/ffffff?text=Image+Not+Found'; };
+                            } else { // video
+                                mediaElement = document.createElement('video');
+                                mediaElement.src = `${mediaPath}${item.file}`;
+                                mediaElement.muted = true;
+                                mediaElement.loop = true;
+                                mediaElement.playsInline = true;
+                                mediaElement.autoplay = true;
+                                mediaElement.onerror = () => console.error(`Failed to load video: ${item.file}`);
+                            }
 
-      switch (item.type) {
-        case 'image': {
-          const img = document.createElement('img');
-          // Restored original image source logic
-          img.src = `${mediaPath}${item.file}`;
-          img.alt = `Image: ${item.file}`;
-          img.className = 'grid-item__media';
-          img.loading = 'lazy'; // Improve performance
-          img.onerror = () => console.error(`Failed to load image: ${img.src}`);
-          gridItem.appendChild(img);
-          break;
-        }
+                            // Create the overlay for the hover effect, but leave it empty
+                            const overlay = document.createElement('div');
+                            overlay.className = 'overlay';
+                            
+                            section.appendChild(mediaElement);
+                            section.appendChild(overlay);
+                            break;
 
-        case 'video': {
-            // Restored original video element
-            const video = document.createElement('video');
-            video.src = `${mediaPath}${item.file}`;
-            video.className = 'grid-item__media';
-            video.autoplay = true;
-            video.loop = true;
-            video.muted = true;
-            video.playsInline = true;
-            video.onerror = () => console.error(`Failed to load video: ${video.src}`);
-            gridItem.appendChild(video);
-            break;
-        }
+                        case 'text':
+                            section.style.backgroundColor = item.bgColor || '#111827';
+                            section.style.color = item.textColor || '#FFFFFF';
+                            
+                            // *** UPDATED LOGIC HERE ***
+                            // Create a standard container for all text content to ensure
+                            // consistent padding and readable line-width for long paragraphs.
+                            const textContainer = document.createElement('div');
+                            textContainer.className = 'p-8 max-w-prose text-lg leading-relaxed';
+                            textContainer.innerHTML = item.content;
 
-        case 'text': {
-          gridItem.style.backgroundColor = item.bgColor || '#111827';
-          gridItem.style.color = item.textColor || 'inherit';
+                            section.appendChild(textContainer);
+                            break;
+                    }
 
-          const textContent = document.createElement('div');
-          textContent.className = 'grid-item__text-content';
+                    container.appendChild(section);
+                });
+            }
 
-          let innerHTML = '';
-          if (item.title) {
-            innerHTML += `<h2 class="grid-item__title">${item.title}</h2>`;
-          }
-          if (item.content) {
-            innerHTML += `<p class="grid-item__body">${item.content}</p>`;
-          }
-          textContent.innerHTML = innerHTML;
-          gridItem.appendChild(textContent);
-          break;
-        }
-      }
-      
-      galleryContainer.appendChild(gridItem);
-    });
-  </script>
+            // --- Initialize the gallery ---
+            populateGallery();
+        });
+    </script>
 
 </body>
 </html>
