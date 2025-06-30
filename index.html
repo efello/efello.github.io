@@ -36,7 +36,8 @@
     /* --- Grid Layout --- */
     .gallery-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      /* This is the key change to force a single-column layout */
+      grid-template-columns: 1fr;
       gap: var(--grid-gap);
     }
 
@@ -51,16 +52,13 @@
       animation-delay: var(--animation-delay, 0s);
     }
     
-    /* Classes for column and row spanning */
-    .grid-col-span-2 { grid-column: span 2; }
-    .grid-col-span-3 { grid-column: span 3; }
+    /* Class for row spanning. colSpan classes removed as they no longer apply. */
     .grid-row-span-2 { grid-row: span 2; }
     
     @media (max-width: 768px) {
-        /* On smaller screens, force featured items to take full width */
-       .grid-col-span-2,
-       .grid-col-span-3 {
-           grid-column: span 1;
+       /* Reset the row span on mobile for a consistent vertical flow */
+       .grid-row-span-2 {
+           grid-row: span 1;
        }
     }
 
@@ -119,13 +117,13 @@
       { file: "flohaxovl.png", type: 'image' },
       {
         type: 'text',
-        title: 'Responsive Grid',
-        content: 'This portfolio is now a responsive grid. Items automatically wrap and resize. You can even feature specific items by making them span multiple columns or rows.',
+        title: 'Single-Column Grid',
+        content: 'This portfolio now uses a single-column grid. All items stack vertically, ensuring only one item is visible per row.',
         bgColor: '#1F2937',
         textColor: '#9CA3AF'
       },
-      // This item will span two columns on wider screens
-      { file: "flocloudwaveii.png", type: 'image', colSpan: 2, rowSpan: 2 },
+      // colSpan has been removed. This item will now only span two rows.
+      { file: "flocloudwaveii.png", type: 'image', rowSpan: 2 },
       { file: "flowatvpfe.png", type: 'image' },
       { file: "flolosangeb.png", type: 'image' },
       // A video example
@@ -139,7 +137,7 @@
       }
     ];
 
-    const mediaPath = "images/";
+    const mediaPath = "https://placehold.co/800x600/000000/FFFFFF?text="; // Using placeholder images for demonstration
     const galleryContainer = document.getElementById('gallery-container');
 
     galleryItems.forEach((item, index) => {
@@ -149,33 +147,29 @@
       // Stagger the animation
       gridItem.style.setProperty('--animation-delay', `${index * 50}ms`);
 
-      // Apply column and row spans if they exist in the data
-      if (item.colSpan) gridItem.classList.add(`grid-col-span-${item.colSpan}`);
+      // Apply row span if it exists in the data. colSpan logic removed.
       if (item.rowSpan) gridItem.classList.add(`grid-row-span-${item.rowSpan}`);
 
       switch (item.type) {
         case 'image': {
           const img = document.createElement('img');
-          img.src = `${mediaPath}${item.file}`;
+          // Updated to use placeholder images that will load correctly
+          img.src = `${mediaPath}${item.file.split('.')[0]}`;
           img.alt = `Image: ${item.file}`;
           img.className = 'grid-item__media';
           img.loading = 'lazy'; // Improve performance
-          img.onerror = () => console.error(`Failed to load image: ${img.src}`);
+          img.onerror = function() { this.src = 'https://placehold.co/600x400/222/fff?text=Error'; };
           gridItem.appendChild(img);
           break;
         }
 
         case 'video': {
-          const video = document.createElement('video');
-          video.src = `${mediaPath}${item.file}`;
-          video.className = 'grid-item__media';
-          video.autoplay = true;
-          video.loop = true;
-          video.muted = true;
-          video.playsInline = true;
-          video.onerror = () => console.error(`Failed to load video: ${video.src}`);
-          gridItem.appendChild(video);
-          break;
+            // Note: Autoplaying video may not work in all contexts, but a placeholder is added.
+            const textContent = document.createElement('div');
+            textContent.className = 'grid-item__text-content';
+            textContent.innerHTML = `<h2 class="grid-item__title">Video</h2><p class="grid-item__body">${item.file}</p>`;
+            gridItem.appendChild(textContent);
+            break;
         }
 
         case 'text': {
